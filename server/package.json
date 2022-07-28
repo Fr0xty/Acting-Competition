@@ -6,7 +6,8 @@
   "type": "module",
   "prettier": "@fr0xty/prettier-config",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon ./dist/server.js"
   },
   "author": "Fr0xty",
   "license": "MIT",
