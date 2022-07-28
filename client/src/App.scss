@@ -1,0 +1,45 @@
+:root {
+    --jet: #353535;
+    --jet-rgb: 35, 35, 35;
+
+    --primary-color: #ff866e;
+}
+
+ul {
+    list-style-type: none;
+}
+
+a {
+    all: unset;
+    cursor: pointer;
+}
+
+button {
+    cursor: pointer;
+}
+
+.no-select {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: var(--copper-rose);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: var(--blizzard-blue);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: var(--dark-blizzard-blue);
+}
