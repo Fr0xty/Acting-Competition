@@ -1,9 +1,15 @@
-import userIcon from '../assets/images/user_icon.svg';
+import '../styles/SignupForm.scss';
+
+import { useState } from 'react';
+
+import UserTypeSelect from './UserTypeSelect';
 
 const SignupForm = () => {
+    const [userType, setUserType] = useState('participant');
+
     return (
         <div className="signup-form">
-            <img src={userIcon} alt="user icon" />
+            <UserTypeSelect userType={userType} setUserType={setUserType} />{' '}
         </div>
     );
 };
