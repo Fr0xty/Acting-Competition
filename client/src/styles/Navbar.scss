@@ -2,6 +2,8 @@
     display: flex;
     justify-content: space-between;
     padding: 0.6em 5em;
+    background: rgba($color: rgb(208, 253, 255), $alpha: 0.55);
+    border-bottom: 1px solid white;
 
     .left-side {
         display: flex;

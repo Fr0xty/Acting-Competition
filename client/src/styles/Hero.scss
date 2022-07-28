@@ -1,0 +1,68 @@
+.hero {
+    text-align: center;
+    padding: 1em;
+    min-height: 75vh;
+    position: relative;
+
+    .background {
+        background: url(../assets/images/stage.jpg);
+        filter: brightness(60%);
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: -1;
+        background-position: center;
+        background-size: cover;
+    }
+
+    h1 {
+        margin-top: 2.5em;
+    }
+    p {
+        color: white;
+        width: 70%;
+        margin: 0 auto;
+    }
+
+    .buttons {
+        margin-top: 7em;
+        button {
+            background: none;
+            border: 1px solid white;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2em;
+            height: 2.3em;
+            padding: 0.2em;
+            transition: all 0.3s;
+            transition-property: color background;
+
+            &:hover {
+                color: black;
+                background: white;
+            }
+        }
+
+        .top {
+            display: flex;
+            justify-content: center;
+            gap: 4em;
+
+            button {
+                width: 7em;
+            }
+        }
+        .bottom {
+            display: flex;
+            justify-content: center;
+            margin-top: 2em;
+            margin-bottom: 5em;
+
+            button {
+                width: 8em;
+            }
+        }
+    }
+}
