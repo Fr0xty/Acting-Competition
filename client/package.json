@@ -2,6 +2,8 @@
   "name": "acting-comp-client",
   "version": "0.1.0",
   "private": true,
+  "prettier": "@fr0xty/prettier-config",
+  "proxy": "http://localhost:8000",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
@@ -15,6 +17,10 @@
     "react-scripts": "5.0.1",
     "typescript": "^4.7.4",
     "web-vitals": "^2.1.4"
+  },
+  "devDependencies": {
+    "@fr0xty/prettier-config": "^1.0.2",
+    "sass": "^1.54.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -41,3 +47,4 @@
     ]
   }
 }
+

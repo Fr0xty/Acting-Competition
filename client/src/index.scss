@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata&family=Zen+Maru+Gothic:wght@300;400;700;900&display=swap');
+body {
+    margin: 0;
+    background: #e3e2d5;
+    font-family: 'Zen Maru Gothic', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+input,
+textarea {
+    font-family: 'Zen Maru Gothic', sans-serif;
+}
+
+pre {
+    font-family: 'Inconsolata', monospace;
+}
+
+#root {
+    -webkit-tap-highlight-color: transparent;
+}
+
