@@ -5,7 +5,7 @@ import resourceRouter from './api/resouce.js';
 
 const router = Router();
 
-router.use(authRouter);
-router.use(resourceRouter);
+router.use('/auth', authRouter);
+router.use('/resource', resourceRouter);
 
 export default router;

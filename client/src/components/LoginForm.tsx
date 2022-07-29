@@ -34,14 +34,14 @@ const LoginForm = () => {
             password: password,
         };
 
-        const req = await fetch(`/api/auth/login?user-type=${userType}`, {
+        const req = await fetch(`/api/auth/signup?user-type=${userType}`, {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(formData),
         });
-        console.log(req.status);
+        console.log(await req.json());
     };
 
     return (
