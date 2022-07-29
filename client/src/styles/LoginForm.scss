@@ -1,4 +1,25 @@
 .login-form {
     padding: 2em;
     min-height: 80vh;
+
+    .form-body {
+        width: 40%;
+        margin: 0 auto;
+
+        .show-password {
+            width: 100%;
+            border: 1px solid rgba($color: var(--jet-rgb), $alpha: 0.3);
+            border-radius: 0.3em;
+            padding: 0.5em 0;
+            text-align: center;
+            background: var(--dark-secondary-color);
+            cursor: pointer;
+            transition: all 0.2s;
+            transition-property: filter;
+
+            &.selected {
+                filter: brightness(90%) saturate(50%);
+            }
+        }
+    }
 }
