@@ -1,15 +1,13 @@
-import '../styles/LoginForm.scss';
+import '../styles/LoginSignupForm.scss';
 
-import { MouseEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import UserTypeSelect from './UserTypeSelect';
 import InputField from './InputField';
 
 const LoginForm = () => {
     const [userType, setUserType] = useState('participant');
-    const [name, setName] = useState('');
     const [icNumber, setICNumber] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
     const [password, setPassword] = useState('');
 
     const [showPassword, setShowPassword] = useState(false);
@@ -30,12 +28,27 @@ const LoginForm = () => {
         });
     }, []);
 
+    const submitLogin = async () => {
+        const formData = {
+            ic_number: icNumber,
+            password: password,
+        };
+
+        const req = await fetch(`/api/auth/login?user-type=${userType}`, {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        });
+        console.log(req.status);
+    };
+
     return (
         <div className="login-form">
             <UserTypeSelect userType={userType} setUserType={setUserType} />
 
             <div className="form-body">
-                <InputField fieldName="Name" characterLimit={30} value={name} setValue={setName} />
                 <InputField
                     fieldName="IC Number"
                     characterLimit={12}
@@ -44,23 +57,21 @@ const LoginForm = () => {
                     inputType="number"
                 />
                 <InputField
-                    fieldName="Phone Number"
-                    characterLimit={15}
-                    value={phoneNumber}
-                    setValue={setPhoneNumber}
-                />
-                <InputField
                     fieldName="Password"
                     characterLimit={30}
                     value={password}
                     setValue={setPassword}
                     inputType={showPassword ? 'text' : 'password'}
                 />
+
                 <div
-                    className={`show-password no-select ${showPassword && 'selected'}`}
+                    className={`show-password-btn no-select ${showPassword && 'selected'}`}
                     onClick={() => setShowPassword(!showPassword)}
                 >
                     Show Password
+                </div>
+                <div className="login-btn no-select" onClick={submitLogin}>
+                    Login
                 </div>
             </div>
         </div>

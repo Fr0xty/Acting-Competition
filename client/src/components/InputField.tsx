@@ -1,6 +1,6 @@
 import '../styles/InputField.scss';
 
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 interface InputFieldProperties {
     fieldName: string;
@@ -13,6 +13,16 @@ interface InputFieldProperties {
 const InputField = ({ fieldName, inputType, characterLimit, value, setValue }: InputFieldProperties) => {
     const [wordCount, setWordCount] = useState(value.length);
 
+    const inputOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const eValue = e.target.value;
+
+        if (eValue.length > characterLimit) return;
+        if (inputType === 'number' && !/^[0-9]*$/.test(eValue)) return;
+
+        setWordCount(eValue.length);
+        setValue(eValue);
+    };
+
     return (
         <div className="input-field">
             <div className="description">
@@ -22,14 +32,11 @@ const InputField = ({ fieldName, inputType, characterLimit, value, setValue }: I
                 </span>
             </div>
             <input
-                type={inputType || 'text'}
+                type={inputType === 'number' ? 'text' : inputType}
                 maxLength={characterLimit}
-                onChange={(e) => {
-                    if (e.target.value.length > characterLimit) return;
-                    setWordCount(e.target.value.length);
-                    setValue(e.target.value);
-                }}
+                onChange={inputOnChange}
                 value={value}
+                min={0}
             />
         </div>
     );

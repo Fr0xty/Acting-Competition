@@ -31,15 +31,6 @@
         border-radius: 0.3em;
         background: rgba($color: white, $alpha: 0.7);
         border: 1px solid rgba($color: var(--jet-rgb), $alpha: 0.4);
-
-        &[type='number'] {
-            letter-spacing: 0.05em;
-
-            &::-webkit-inner-spin-button,
-            ::-webkit-outer-spin-button {
-                opacity: 0;
-            }
-        }
     }
 
     &.focused {
