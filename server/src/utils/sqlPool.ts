@@ -1,5 +1,6 @@
-import { createPool } from 'mysql2/promise';
 import 'dotenv/config';
+
+import { createPool } from 'mysql2/promise';
 
 const pool = createPool({
     user: process.env.USER,
