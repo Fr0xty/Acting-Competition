@@ -13,8 +13,9 @@ router.post('/signup', async (req, res) => {
     /**
      * validate user type query string
      */
-    if (!userType) return res.status(400).send('Missing "user-type" query string.');
-    if (!['admin', 'judge', 'participant'].includes(userType)) return res.status(400).send('Invalid user type.');
+    if (!userType) return res.status(400).json({ field: null, message: 'Missing "user-type" query string.' });
+    if (!['admin', 'judge', 'participant'].includes(userType))
+        return res.status(400).json({ field: null, message: 'Invalid user type.' });
 
     /**
      * validate form data in body
@@ -28,8 +29,8 @@ router.post('/signup', async (req, res) => {
      */
     try {
         await createSQLUser(userType as 'admin' | 'participant' | 'judge', userFormData);
-    } catch (e) {
-        return res.status(400).send(e);
+    } catch (e: any) {
+        return res.status(400).json({ field: null, message: e.message });
     }
 
     /**
