@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import Joi from 'joi';
-import pool from '../../../utils/sqlPool.js';
+import { createSQLUser } from '../../../utils/sqlAcount.js';
+import { validateSignupForm } from '../../../utils/validate.js';
 
 const router = Router();
 
@@ -8,45 +8,34 @@ const router = Router();
  * create a new user in database + assign oauth cookies
  */
 router.post('/signup', async (req, res) => {
-    const { 'user-type': userType } = req.query;
-    if (!userType) return res.status(400).send('Missing "user-type" query string.');
-
-    const userTypes = ['admin', 'judge', 'participant'];
-    if (!userTypes.includes(userType.toString())) return res.status(400).send('Invalid user type.');
+    const userType = req.query['user-type']?.toString();
 
     /**
-     * valid user type
+     * validate user type query string
+     */
+    if (!userType) return res.status(400).send('Missing "user-type" query string.');
+    if (!['admin', 'judge', 'participant'].includes(userType)) return res.status(400).send('Invalid user type.');
+
+    /**
+     * validate form data in body
      */
     const userFormData = req.body;
+    const error = await validateSignupForm(userFormData);
+    if (error) return res.status(400).json(error);
 
-    const schema = Joi.object({
-        ic_number: Joi.string()
-            .regex(/^[0-9]{12}$/)
-            .required(),
-        password: Joi.string().min(8).max(30).required(),
-    });
-
+    /**
+     * create user in database
+     */
     try {
-        await schema.validateAsync(userFormData);
-
-        /**
-         * valid user form data
-         */
-        pool.execute(`
-            INSERT INTO 
-        `);
-
-        /**
-         * give oauth cookies
-         */
-        // TODO
-        res.sendStatus(200);
-    } catch (e: any) {
-        res.status(400).json({
-            field: e.details[0].path[e.details[0].path.length - 1],
-            message: e.details[0].message,
-        });
+        await createSQLUser(userType as 'admin' | 'participant' | 'judge', userFormData);
+    } catch (e) {
+        return res.status(400).send(e);
     }
+
+    /**
+     * success
+     */
+    res.sendStatus(200);
 });
 
 export default router;

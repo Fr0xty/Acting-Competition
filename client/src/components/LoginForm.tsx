@@ -34,7 +34,7 @@ const LoginForm = () => {
             password: password,
         };
 
-        const req = await fetch(`/api/auth/signup?user-type=${userType}`, {
+        const req = await fetch(`/api/auth/login?user-type=${userType}`, {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json',

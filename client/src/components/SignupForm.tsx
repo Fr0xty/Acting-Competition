@@ -45,7 +45,7 @@ const SignupForm = () => {
             },
             body: JSON.stringify(formData),
         });
-        console.log(req.status);
+        console.log(await req.json());
     };
 
     return (
