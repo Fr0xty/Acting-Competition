@@ -30,6 +30,18 @@ const SignupForm = () => {
         });
     }, []);
 
+    /**
+     * to set the error styling on the input field
+     * @param fieldClassName className of the input field element
+     */
+    const setFieldError = (fieldClassName: string) => {
+        document.querySelector(`.input-field.${fieldClassName}`)?.classList.add('error');
+    };
+
+    /**
+     * onClick handler for signup button
+     * @returns Promise<void>
+     */
     const submitSignup = async () => {
         const formData = {
             name,
@@ -45,7 +57,21 @@ const SignupForm = () => {
             },
             body: JSON.stringify(formData),
         });
-        console.log(await req.json());
+
+        /**
+         * no errors
+         */
+        if (req.status === 200) {
+            alert('User created successfully!');
+            return window.location.reload();
+        }
+
+        /**
+         * something went wrong
+         */
+        const error = await req.json();
+        alert(error.message);
+        setFieldError(error.field);
     };
 
     return (
@@ -53,19 +79,21 @@ const SignupForm = () => {
             <UserTypeSelect userType={userType} setUserType={setUserType} />
 
             <div className="form-body">
-                <InputField fieldName="Name" characterLimit={30} value={name} setValue={setName} />
+                <InputField fieldName="Name" characterLimit={30} value={name} setValue={setName} className="name" />
                 <InputField
                     fieldName="IC Number"
                     characterLimit={12}
                     value={icNumber}
                     setValue={setICNumber}
                     inputType="number"
+                    className="ic_number"
                 />
                 <InputField
                     fieldName="Phone Number"
                     characterLimit={15}
                     value={phoneNumber}
                     setValue={setPhoneNumber}
+                    className="phone_number"
                 />
                 <InputField
                     fieldName="Password"
@@ -73,6 +101,7 @@ const SignupForm = () => {
                     value={password}
                     setValue={setPassword}
                     inputType={showPassword ? 'text' : 'password'}
+                    className="password"
                 />
                 <div
                     className={`show-password-btn no-select ${showPassword && 'selected'}`}

@@ -8,9 +8,10 @@ interface InputFieldProperties {
     characterLimit: number;
     value: string;
     setValue: React.Dispatch<React.SetStateAction<string>>;
+    className?: string;
 }
 
-const InputField = ({ fieldName, inputType, characterLimit, value, setValue }: InputFieldProperties) => {
+const InputField = ({ fieldName, inputType, characterLimit, value, setValue, className }: InputFieldProperties) => {
     const [wordCount, setWordCount] = useState(value.length);
 
     const inputOnChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -19,12 +20,14 @@ const InputField = ({ fieldName, inputType, characterLimit, value, setValue }: I
         if (eValue.length > characterLimit) return;
         if (inputType === 'number' && !/^[0-9]*$/.test(eValue)) return;
 
+        document.querySelector(`.input-field.${className}`)?.classList.remove('error');
+
         setWordCount(eValue.length);
         setValue(eValue);
     };
 
     return (
-        <div className="input-field">
+        <div className={`input-field ${className}`}>
             <div className="description">
                 <span className="input-name">{fieldName}</span>
                 <span className="character-limit">
