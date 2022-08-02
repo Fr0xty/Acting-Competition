@@ -1,4 +1,4 @@
-import { SQLUserInfo, UserSignupFormData } from 'acting-comp';
+import { OAuthTableReturn, SQLUserInfo, UserAccountInfo, UserSignupFormData } from 'acting-comp';
 import pool from './sqlPool.js';
 
 /**
@@ -47,4 +47,26 @@ export const sqlGetUser = async (
  * get user's info with access token
  * @param accessToken user's oauth access token
  */
-export const sqlGetUserWithAccessToken = async (accessToken: string) => {};
+export const sqlGetUserWithAccessToken = async (accessToken: string): Promise<UserAccountInfo | undefined> => {
+    try {
+        const [oauthTokenTableRows, _] = (await pool.query(`
+            SELECT * FROM oauth_token
+            WHERE (access_token = '${accessToken}');
+        `)) as [OAuthTableReturn[], any];
+
+        const user = oauthTokenTableRows[0];
+
+        const [userTableRows, __] = (await pool.query(`
+            SELECT * FROM ${user.user_type}
+            WHERE (${user.user_type}_id = '${user[`${user.user_type}_id`]}');
+        `)) as [SQLUserInfo[], any];
+
+        return {
+            userType: user.user_type,
+            userId: user[`${user.user_type}_id`]!,
+            name: userTableRows[0].name,
+            phoneNumber: userTableRows[0].phone_number,
+            password: userTableRows[0].password,
+        };
+    } catch {}
+};

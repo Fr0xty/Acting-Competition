@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import accessTokenCheck from '../../../middlewares/accessTokenCheck.js';
+import accessTokenCheckFunction from '../../../utils/accessTokenCheckFunction.js';
 import { setOAuthToken } from '../../../utils/cookie.js';
-import { sqlCreateUser, sqlGetUser } from '../../../utils/sqlAcount.js';
+import { sqlCreateUser, sqlGetUser, sqlGetUserWithAccessToken } from '../../../utils/sqlAcount.js';
 import { validateloginForm, validateSignupForm } from '../../../utils/validate.js';
 
 const router = Router();
@@ -9,52 +9,51 @@ const router = Router();
 /**
  * create a new user in database
  */
-router.post(
-    '/signup',
-    async (req, res, next) => {
-        const userType = req.query['user-type']?.toString();
+router.post('/signup', async (req, res, next) => {
+    const userType = req.query['user-type']?.toString();
 
-        /**
-         * validate user type query string
-         */
-        if (!userType) return res.status(400).json({ field: null, message: 'Missing "user-type" query string.' });
-        if (!['admin', 'judge', 'participant'].includes(userType))
-            return res.status(400).json({ field: null, message: 'Invalid user type.' });
+    /**
+     * validate user type query string
+     */
+    if (!userType) return res.status(400).json({ field: null, message: 'Missing "user-type" query string.' });
+    if (!['admin', 'judge', 'participant'].includes(userType))
+        return res.status(400).json({ field: null, message: 'Invalid user type.' });
 
-        /**
-         * privilege user types: admin & judge
-         * - only admins are allowed to create these accounts
-         */
-        if (['admin', 'judge'].includes(userType)) {
-            next();
-            if (req.accessToken) {
-                // const getUserInfo
-            }
-        }
-        return;
-        /**
-         * validate form data in body
-         */
-        const userFormData = req.body;
-        const error = await validateSignupForm(userFormData);
-        if (error) return res.status(400).json(error);
+    /**
+     * privilege user types: admin & judge
+     * - only admins are allowed to create these accounts
+     */
+    if (['admin', 'judge'].includes(userType)) {
+        await accessTokenCheckFunction(req, res);
+        if (!req.accessToken) return;
+        const userInfo = await sqlGetUserWithAccessToken(req.accessToken);
+        if (userInfo?.userType !== 'admin')
+            return res
+                .status(403)
+                .json({ field: null, message: 'You do not have permission. Sign up as a participant instead.' });
+    }
 
-        /**
-         * create user in database
-         */
-        try {
-            await sqlCreateUser(userType as 'admin' | 'participant' | 'judge', userFormData);
-        } catch (e: any) {
-            return res.status(400).json({ field: null, message: e.message });
-        }
+    /**
+     * validate form data in body
+     */
+    const userFormData = req.body;
+    const error = await validateSignupForm(userFormData);
+    if (error) return res.status(400).json(error);
 
-        /**
-         * success
-         */
-        res.sendStatus(200);
-    },
-    accessTokenCheck
-);
+    /**
+     * create user in database
+     */
+    try {
+        await sqlCreateUser(userType as 'admin' | 'participant' | 'judge', userFormData);
+    } catch (e: any) {
+        return res.status(400).json({ field: null, message: e.message });
+    }
+
+    /**
+     * success
+     */
+    res.sendStatus(200);
+});
 
 /**
  * validate user info with database + assign oauth cookies if success
