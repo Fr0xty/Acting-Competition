@@ -114,16 +114,23 @@ await pool.execute(`
  */
 await pool.execute(`
     CREATE TABLE oauth_token (
-        participant_id VARCHAR(12),
-        FOREIGN KEY (participant_id) REFERENCES participant(participant_id),
         admin_id VARCHAR(12),
         FOREIGN KEY (admin_id) REFERENCES admin(admin_id),
+
+        participant_id VARCHAR(12),
+        FOREIGN KEY (participant_id) REFERENCES participant(participant_id),
+
         judge_id VARCHAR(12),
         FOREIGN KEY (judge_id) REFERENCES judge(judge_id),
+
+        user_type VARCHAR(11) NOT NULL,
+        
         refresh_token VARCHAR(255),
         access_token VARCHAR(255),
-        refresh_token_expires TIMESTAMP,
-        access_token_expires TIMESTAMP
+        refresh_token_expires TIMESTAMP NOT NULL,
+        access_token_expires TIMESTAMP NOT NULL,
+
+        PRIMARY KEY (refresh_token, access_token)
     );
 `);
 

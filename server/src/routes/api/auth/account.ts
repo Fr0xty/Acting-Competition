@@ -1,11 +1,12 @@
 import { Router } from 'express';
-import { createSQLUser } from '../../../utils/sqlAcount.js';
-import { validateSignupForm } from '../../../utils/validate.js';
+import { setOAuthToken } from '../../../utils/cookie.js';
+import { sqlCreateUser, sqlGetUser } from '../../../utils/sqlAcount.js';
+import { validateloginForm, validateSignupForm } from '../../../utils/validate.js';
 
 const router = Router();
 
 /**
- * create a new user in database + assign oauth cookies
+ * create a new user in database
  */
 router.post('/signup', async (req, res) => {
     const userType = req.query['user-type']?.toString();
@@ -28,7 +29,7 @@ router.post('/signup', async (req, res) => {
      * create user in database
      */
     try {
-        await createSQLUser(userType as 'admin' | 'participant' | 'judge', userFormData);
+        await sqlCreateUser(userType as 'admin' | 'participant' | 'judge', userFormData);
     } catch (e: any) {
         return res.status(400).json({ field: null, message: e.message });
     }
@@ -36,6 +37,43 @@ router.post('/signup', async (req, res) => {
     /**
      * success
      */
+    res.sendStatus(200);
+});
+
+/**
+ * validate user info with database + assign oauth cookies if success
+ */
+router.post('/login', async (req, res) => {
+    /**
+     * validate user type query string
+     */
+    const userType = req.query['user-type']?.toString();
+    if (!userType) return res.status(400).json({ field: null, message: 'Missing "user-type" query string.' });
+    if (!['admin', 'judge', 'participant'].includes(userType))
+        return res.status(400).json({ field: null, message: 'Invalid user type.' });
+
+    /**
+     * validate form data in body
+     */
+    const userFormData = req.body;
+    const error = await validateloginForm(userFormData);
+    if (error) return res.status(400).json(error);
+
+    /**
+     * validate user in database
+     */
+    const userInfo = await sqlGetUser(userType as 'admin' | 'participant' | 'judge', userFormData.ic_number);
+    if (!userInfo) return res.status(404).json({ field: null, message: 'User does not exist.' });
+
+    /**
+     * success, give oauth cookies
+     */
+    await setOAuthToken(
+        userType as 'admin' | 'participant' | 'judge',
+        userInfo.admin_id || userInfo.participant_id || userInfo.judge_id!,
+        res
+    );
+
     res.sendStatus(200);
 });
 

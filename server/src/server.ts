@@ -11,7 +11,7 @@ const app = express();
 /**
  * parse cookies and JSON
  */
-app.use(cookieParser());
+app.use(cookieParser(process.env.SIGN_COOKIE_SECRET));
 app.use(express.json());
 
 /**
