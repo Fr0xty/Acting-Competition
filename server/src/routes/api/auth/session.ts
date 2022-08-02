@@ -1,9 +1,9 @@
 import 'dotenv/config';
 import JWT from 'jsonwebtoken';
 import { Router } from 'express';
-import { checkRefreshTokenVadility } from '../../../utils/sqlOAuthToken';
-import { setOAuthToken } from '../../../utils/cookie';
-import { sqlGetUserWithRefreshToken } from '../../../utils/sqlAcount';
+import { checkRefreshTokenVadility } from '../../../utils/sqlOAuthToken.js';
+import { setOAuthToken } from '../../../utils/cookie.js';
+import { sqlGetUserWithRefreshToken } from '../../../utils/sqlAcount.js';
 
 const router = Router();
 
@@ -48,6 +48,8 @@ router.post('/refresh-token', async (req, res) => {
 /**
  * reset user's session
  */
-router.post('/reset-session', async (req, res) => {});
+router.post('/reset-session', async (req, res) => {
+    res.clearCookie('at').clearCookie('rt').redirect('/');
+});
 
 export default router;
