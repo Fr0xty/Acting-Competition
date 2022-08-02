@@ -70,3 +70,18 @@ export const sqlGetUserWithAccessToken = async (accessToken: string): Promise<Us
         };
     } catch {}
 };
+
+/**
+ * get user's oauth info with refresh token
+ * @param refreshToken user's oauth refresh token
+ */
+export const sqlGetUserWithRefreshToken = async (refreshToken: string): Promise<OAuthTableReturn | undefined> => {
+    try {
+        const [oauthTokenTableRows, _] = (await pool.query(`
+            SELECT * FROM oauth_token
+            WHERE (refresh_token = '${refreshToken}');
+        `)) as [OAuthTableReturn[], any];
+
+        return oauthTokenTableRows[0];
+    } catch {}
+};

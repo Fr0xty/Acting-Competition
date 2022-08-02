@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import JWT from 'jsonwebtoken';
 import { Request, Response } from 'express';
-import { checkAccessTokenExpiry } from '../utils/sqlOAuthToken.js';
+import { checkAccessTokenVadility } from '../utils/sqlOAuthToken.js';
 
 /**
  * if request has no valid access token: sendStatus(401)
@@ -20,7 +20,7 @@ export default async (req: Request, res: Response) => {
         /**
          * check token expiry
          */
-        const valid = await checkAccessTokenExpiry(decryptedAccessToken);
+        const valid = await checkAccessTokenVadility(decryptedAccessToken);
         if (!valid) return res.sendStatus(401);
 
         /**

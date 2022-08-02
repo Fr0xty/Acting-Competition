@@ -26,6 +26,7 @@ router.post('/signup', async (req, res, next) => {
     if (['admin', 'judge'].includes(userType)) {
         await accessTokenCheckFunction(req, res);
         if (!req.accessToken) return;
+
         const userInfo = await sqlGetUserWithAccessToken(req.accessToken);
         if (userInfo?.userType !== 'admin')
             return res
