@@ -42,3 +42,9 @@ export const sqlGetUser = async (
     } catch {}
     return null;
 };
+
+/**
+ * get user's info with access token
+ * @param accessToken user's oauth access token
+ */
+export const sqlGetUserWithAccessToken = async (accessToken: string) => {};

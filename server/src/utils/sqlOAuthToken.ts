@@ -1,7 +1,11 @@
 import pool from './sqlPool.js';
 
 /**
- * store oauth
+ * store refresh and access token into database
+ * @param userType
+ * @param userId
+ * @param refreshToken
+ * @param accessToken
  */
 export const sqlStoreUserOAuthTokens = async (
     userType: 'admin' | 'participant' | 'judge',
@@ -36,6 +40,11 @@ export const sqlStoreUserOAuthTokens = async (
     }
 };
 
+/**
+ * remove user's valid oauth tokens from database
+ * @param userType
+ * @param userId
+ */
 export const sqlRemoveUserOAuthTokens = async (userType: 'admin' | 'participant' | 'judge', userId: string) => {
     try {
         await pool.execute(`
@@ -45,4 +54,22 @@ export const sqlRemoveUserOAuthTokens = async (userType: 'admin' | 'participant'
     } catch (err) {
         console.log(err);
     }
+};
+
+/**
+ * check if access token is expired from database
+ * @param accessToken user's oauth access token
+ * @returns whether it is valid
+ */
+export const checkAccessTokenExpiry = async (accessToken: string): Promise<boolean> => {
+    try {
+        const [rows, _] = (await pool.query(`
+            SELECT * FROM oauth_token
+            WHERE (access_token = '${accessToken}' AND access_token_expires > NOW());
+        `)) as any[];
+        if (rows.length) return true;
+    } catch (err) {
+        console.log(err);
+    }
+    return false;
 };
