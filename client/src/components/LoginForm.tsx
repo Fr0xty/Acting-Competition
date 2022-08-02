@@ -28,10 +28,22 @@ const LoginForm = () => {
         });
     }, []);
 
+    /**
+     * to set the error styling on the input field
+     * @param fieldClassName className of the input field element
+     */
+    const setFieldError = (fieldClassName: string) => {
+        document.querySelector(`.input-field.${fieldClassName}`)?.classList.add('error');
+    };
+
+    /**
+     * onClick handler for signup button
+     * @returns Promise<void>
+     */
     const submitLogin = async () => {
         const formData = {
             ic_number: icNumber,
-            password: password,
+            password,
         };
 
         const req = await fetch(`/api/auth/login?user-type=${userType}`, {
@@ -41,7 +53,18 @@ const LoginForm = () => {
             },
             body: JSON.stringify(formData),
         });
-        console.log(await req.json());
+
+        /**
+         * no errors
+         */
+        if (req.status === 200) return (window.location.href = `/home`);
+
+        /**
+         * something went wrong
+         */
+        const error = await req.json();
+        alert(error.message);
+        setFieldError(error.field);
     };
 
     return (
@@ -55,6 +78,7 @@ const LoginForm = () => {
                     value={icNumber}
                     setValue={setICNumber}
                     inputType="number"
+                    className="ic_number"
                 />
                 <InputField
                     fieldName="Password"
@@ -62,6 +86,7 @@ const LoginForm = () => {
                     value={password}
                     setValue={setPassword}
                     inputType={showPassword ? 'text' : 'password'}
+                    className="password"
                 />
 
                 <div
