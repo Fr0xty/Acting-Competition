@@ -7,7 +7,7 @@ import './utils/fetchInterceptor';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import UserHome from './pages/UserHome';
+import UserPage from './pages/UserPage';
 
 const App = () => {
     return (
@@ -19,7 +19,9 @@ const App = () => {
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
 
-                    <Route path="/home" element={<UserHome />} />
+                    <Route path="/home" element={<UserPage page="home" />} />
+                    <Route path="/events" element={<UserPage page="events" />} />
+                    <Route path="/register" element={<UserPage page="register" />} />
                 </Routes>
             </Router>
         </div>
