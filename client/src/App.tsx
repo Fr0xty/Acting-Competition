@@ -7,6 +7,7 @@ import './utils/fetchInterceptor';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import UserHome from './pages/UserHome';
 
 const App = () => {
     return (
@@ -17,6 +18,8 @@ const App = () => {
                     <Route index element={<Home />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
+
+                    <Route path="/home" element={<UserHome />} />
                 </Routes>
             </Router>
         </div>
