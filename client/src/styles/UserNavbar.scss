@@ -1,0 +1,39 @@
+.user-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba($color: var(--darker-secondary-color-rgb), $alpha: 0.3);
+    border-bottom: 1px solid white;
+    padding: 0.3em 2em;
+
+    .user {
+        padding: 0.5em 2em;
+
+        h3 {
+            font-size: 1.5em;
+            margin: 0;
+        }
+        p {
+            font-size: 1.1em;
+            margin: 0.2em 0 0;
+        }
+    }
+
+    button.logout-btn {
+        font-size: 1em;
+        height: fit-content;
+        padding: 0.5em 1em;
+        border: 1px solid var(--jet);
+        border-radius: 0.4em;
+        background: var(--danger);
+        color: white;
+        font-weight: bold;
+        margin-right: 2em;
+        transition: all 0.2s;
+        transition-property: background;
+
+        &:hover {
+            background: var(--dark-danger);
+        }
+    }
+}
