@@ -1,0 +1,44 @@
+.event-list {
+    margin-top: 2em;
+    width: 100%;
+    justify-content: center;
+    display: grid;
+    grid-template-columns: 30% 30% 30%;
+    gap: 2%;
+
+    .selection {
+        border: 1px solid var(--jet);
+        background: white;
+        width: 100%;
+        height: 18em;
+        border-radius: 0.5em;
+        transition: all 0.1s;
+        transition-property: width height margin;
+        cursor: pointer;
+
+        &:hover {
+            width: calc(100% - 0.4em);
+            height: 17.6em;
+            margin: 0.2em;
+            border: 1px solid var(--primary-color);
+            outline: 1px solid var(--primary-color);
+        }
+    }
+
+    .add-event {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: var(--success);
+        transition: all 0.2s;
+        transition-property: background;
+
+        img {
+            width: 12em;
+        }
+
+        &:hover {
+            background: var(--dark-success);
+        }
+    }
+}

@@ -13,6 +13,7 @@ const UserPageNavigation = ({ userType, currentPage }: UserPageNavigationPropert
                     <span>Events</span>
                 </div>
             </a>
+
             {userType === 'admin' && (
                 <a href="/register">
                     <div className={`btn ${currentPage === 'register' && 'current-page'}`}>
