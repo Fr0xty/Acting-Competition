@@ -51,6 +51,7 @@
             background: rgba($color: var(--primary-color-rgb), $alpha: 0.8);
         }
 
+        &.current-page,
         &:hover {
             color: var(--jet);
 
