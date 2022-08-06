@@ -12,6 +12,8 @@ interface EventAddProperties {
 const EventAdd = ({ setCurrentSubPage }: EventAddProperties) => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
+    const [registerDeadline, setRegisterDeadline] = useState('');
+    const [eventDeadline, setEventDeadline] = useState('');
 
     useEffect(() => {
         /**
@@ -29,12 +31,37 @@ const EventAdd = ({ setCurrentSubPage }: EventAddProperties) => {
         });
     }, []);
 
-    /**
-     * to set the error styling on the input field
-     * @param fieldClassName className of the input field element
-     */
-    const setFieldError = (fieldClassName: string) => {
-        document.querySelector(`.input-field.${fieldClassName}`)?.classList.add('error');
+    const submitForm = async () => {
+        const data = {
+            name,
+            description,
+            register_deadline: registerDeadline,
+            event_deadline: eventDeadline,
+        };
+
+        const submitReq = await fetch('/api/resource/add-event', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+
+        /**
+         * handle bad input
+         */
+        if (submitReq.status === 400) return alert();
+
+        /**
+         * unforeseen error
+         */
+        if (submitReq.status !== 200) return;
+
+        /**
+         * success
+         */
+        alert('Event created successfully.');
+        document.location.href = '/events';
     };
 
     return (
@@ -51,7 +78,7 @@ const EventAdd = ({ setCurrentSubPage }: EventAddProperties) => {
                         />
                         <h1>Create Event</h1>
                     </div>
-                    <button>Create</button>
+                    <button onClick={submitForm}>Create</button>
                 </div>
                 <div className="form-body">
                     <InputField
@@ -69,6 +96,26 @@ const EventAdd = ({ setCurrentSubPage }: EventAddProperties) => {
                         value={description}
                         className="description-field"
                     />
+
+                    <div className="deadline-field">
+                        <span>Register Deadline</span>
+                        <input
+                            type="date"
+                            onChange={(e) => {
+                                setRegisterDeadline(e.target.value);
+                            }}
+                        />
+                    </div>
+
+                    <div className="deadline-field">
+                        <span>Event Deadline</span>
+                        <input
+                            type="date"
+                            onChange={(e) => {
+                                setEventDeadline(e.target.value);
+                            }}
+                        />
+                    </div>
                 </div>
             </div>
         </div>

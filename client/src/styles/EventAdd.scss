@@ -48,6 +48,26 @@
         }
 
         .form-body {
+            .deadline-field {
+                background: rgba($color: white, $alpha: 0.7);
+                border: 1px solid rgba($color: var(--jet-rgb), $alpha: 0.4);
+                border-radius: 0.4em;
+                margin-bottom: 1.2em;
+
+                span {
+                    display: block;
+                    margin: 0.5em 0 0 0.8em;
+                }
+
+                input {
+                    display: block;
+                    margin: 0 auto;
+                    padding: 0.6em 1em;
+                    margin-bottom: 1em;
+                    border: 1px solid rgba($color: var(--jet-rgb), $alpha: 0.4);
+                    border-radius: 0.4em;
+                }
+            }
         }
     }
 }
