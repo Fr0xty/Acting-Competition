@@ -1,0 +1,53 @@
+.event-add {
+    .form {
+        width: 80%;
+        margin: 0 auto;
+
+        .form-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .left-group {
+                display: flex;
+                align-items: center;
+                gap: 1em;
+
+                img {
+                    width: 2em;
+                    height: fit-content;
+                    padding: 0.6em;
+                    border-radius: 50%;
+                    margin-top: 0.3em;
+                    transition: all 0.2s;
+                    transition-property: background;
+                    cursor: pointer;
+
+                    &:hover {
+                        background: rgba($color: black, $alpha: 0.2);
+                    }
+                }
+            }
+
+            button {
+                height: fit-content;
+                font-size: 1.2em;
+                font-weight: bold;
+                padding: 0.3em 0.8em;
+                border-radius: 1em;
+                border: 1px solid var(--jet);
+                color: var(--jet);
+                background: var(--success);
+                transition: all 0.2s;
+                transition-property: filter;
+
+                &:hover {
+                    filter: brightness(85%);
+                }
+            }
+        }
+
+        .form-body {
+        }
+    }
+}

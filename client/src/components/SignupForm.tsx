@@ -40,9 +40,8 @@ const SignupForm = () => {
 
     /**
      * onClick handler for signup button
-     * @returns Promise<void>
      */
-    const submitSignup = async () => {
+    const submitSignup = async (): Promise<void> => {
         const formData = {
             name,
             ic_number: icNumber,
