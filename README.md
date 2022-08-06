@@ -1,6 +1,10 @@
 # Acting Competition
 
-This is a full-stack web application with the purpose of hosting an Acting Competition. This is my project for SPM Computer Science Examination.
+This is a full-stack web application with the purpose of hosting an Acting Competition. This is my project for SPM Computer Science.
+
+#### Note:
+
+This is just a project and should be treated as such. Attacks such as SQL Injection are possible if you try to find security vulnaribilities. This application is not fully optimized but to prove my capability to build one & as a prove of concept.
 
 ## Technologies Used To Develop This Project
 
