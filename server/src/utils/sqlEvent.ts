@@ -1,4 +1,4 @@
-import { AddEventData } from 'acting-comp';
+import { AddEventData, EventTableReturnRow } from 'acting-comp';
 import pool from './sqlPool.js';
 
 export const sqlAddEvent = async (eventData: AddEventData) => {
@@ -16,7 +16,7 @@ export const sqlGetEvents = async (userType: 'admin' | 'participant' | 'judge', 
             const [rows, _] = await pool.query(`
                 SELECT * FROM event LEFT JOIN event_user
                 ON event.event_id = event_user.event_id
-                WHERE event_user.participant_id = ${userId};
+                WHERE (event_user.participant_id = ${userId} or event_user.participant_id is null);
             `);
             console.log(rows);
             return rows;
@@ -30,4 +30,33 @@ export const sqlGetEvents = async (userType: 'admin' | 'participant' | 'judge', 
         `);
         return rows;
     } catch {}
+};
+
+export const sqlGetEventInfo = async (userType: 'admin' | 'participant' | 'judge', userId: string, eventId: string) => {
+    const [eventDetailRows, _] = (await pool.query(`
+        SELECT * FROM event
+        WHERE event_id = ${eventId};
+    `)) as [EventTableReturnRow[], any];
+
+    if (!eventDetailRows.length) return null;
+    const eventDetail = eventDetailRows[0];
+
+    const [eventUserRows, __] = await pool.query(`
+        SELECT 
+            ${userType !== 'participant' ? 'participant.participant_id,' : ''}
+            participant.name,
+            ${userType !== 'participant' ? 'participant.phone_number,' : ''}
+            event_user.placement,
+            event_user.total_marks
+                
+        FROM event_user LEFT JOIN participant
+        ON event_user.participant_id = participant.participant_id
+        
+        WHERE event_user.event_id = ${eventId};
+    `);
+
+    return {
+        eventDetail,
+        eventUsers: eventUserRows,
+    };
 };
