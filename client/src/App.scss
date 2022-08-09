@@ -51,15 +51,15 @@ button {
 
 /* Track */
 ::-webkit-scrollbar-track {
-    background: var(--copper-rose);
+    background: rgba($color: var(--jet-rgb), $alpha: 0.4);
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: var(--blizzard-blue);
+    background: rgba($color: var(--primary-color-rgb), $alpha: 0.7);
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--dark-blizzard-blue);
+    background: var(--primary-color);
 }

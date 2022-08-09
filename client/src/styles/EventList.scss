@@ -9,7 +9,8 @@
     .selection {
         border: 1px solid var(--jet);
         background: white;
-        width: 100%;
+        padding: 1em;
+        width: calc(100% - 2em);
         height: 18em;
         border-radius: 0.5em;
         transition: all 0.1s;
@@ -17,11 +18,25 @@
         cursor: pointer;
 
         &:hover {
-            width: calc(100% - 0.4em);
+            width: calc(100% - 2.4em);
             height: 17.6em;
             margin: 0.2em;
             border: 1px solid var(--primary-color);
             outline: 1px solid var(--primary-color);
+        }
+
+        h3 {
+            margin: 0;
+            font-size: 1.7em;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        p {
+            word-wrap: break-word;
+            text-overflow: scroll;
+            max-height: 14.5em;
         }
     }
 

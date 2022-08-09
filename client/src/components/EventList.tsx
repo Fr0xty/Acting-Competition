@@ -10,7 +10,7 @@ interface EventListProperties {
 }
 
 const EventList = ({ userType, setCurrentSubPage }: EventListProperties) => {
-    const [events, setEvents] = useState([]);
+    const [events, setEvents] = useState<any[]>([]);
 
     useEffect(() => {
         (async () => {
@@ -20,13 +20,15 @@ const EventList = ({ userType, setCurrentSubPage }: EventListProperties) => {
             setEvents(await fetchEventsReq.json());
         })();
     }, []);
+
     return (
         <div className="event-list">
-            {/* {events.map((event) => (
+            {events.map((event) => (
                 <div className="selection">
                     <h3>{event.name}</h3>
+                    <p>{event.description}</p>
                 </div>
-            ))} */}
+            ))}
 
             <div
                 className="add-event selection"
