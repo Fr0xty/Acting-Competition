@@ -37,7 +37,7 @@ router.post('/signup', async (req, res, next) => {
     /**
      * validate form data in body
      */
-    const userFormData = req.body;
+    const userFormData: any = req.body;
     const error = await validateSignupForm(userFormData);
     if (error) return res.status(400).json(error);
 
@@ -71,7 +71,7 @@ router.post('/login', async (req, res) => {
     /**
      * validate form data in body
      */
-    const userFormData = req.body;
+    const userFormData: any = req.body;
     const error = await validateloginForm(userFormData);
     if (error) return res.status(400).json(error);
 

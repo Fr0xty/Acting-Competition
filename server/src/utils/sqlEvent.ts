@@ -9,3 +9,19 @@ export const sqlAddEvent = async (eventData: AddEventData) => {
         `);
     } catch {}
 };
+
+export const sqlGetEvents = async (userType: 'admin' | 'participant' | 'judge', userId: string) => {
+    try {
+        if (userType === 'participant') {
+            // TODO
+        }
+
+        /**
+         * admin & judge
+         */
+        const [rows, _] = await pool.query(`
+            SELECT * FROM event;
+        `);
+        return rows;
+    } catch {}
+};

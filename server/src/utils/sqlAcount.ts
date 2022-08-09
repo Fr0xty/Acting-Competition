@@ -68,7 +68,9 @@ export const sqlGetUserWithAccessToken = async (accessToken: string): Promise<Us
             phoneNumber: userTableRows[0].phone_number,
             password: userTableRows[0].password,
         };
-    } catch {}
+    } catch (err) {
+        console.log(err);
+    }
 };
 
 /**

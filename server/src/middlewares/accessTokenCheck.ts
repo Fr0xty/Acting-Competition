@@ -26,7 +26,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         /**
          * success
          */
-        req.accessToken = decryptedAccessToken.toString();
+        req.accessToken = decryptedAccessToken;
         next();
     } catch {
         /**
