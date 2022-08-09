@@ -13,7 +13,13 @@ export const sqlAddEvent = async (eventData: AddEventData) => {
 export const sqlGetEvents = async (userType: 'admin' | 'participant' | 'judge', userId: string) => {
     try {
         if (userType === 'participant') {
-            // TODO
+            const [rows, _] = await pool.query(`
+                SELECT * FROM event LEFT JOIN event_user
+                ON event.event_id = event_user.event_id
+                WHERE event_user.participant_id = ${userId};
+            `);
+            console.log(rows);
+            return rows;
         }
 
         /**
