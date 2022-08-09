@@ -32,7 +32,7 @@ export const sqlStoreUserOAuthTokens = async (
                     .toISOString()
                     .slice(0, 19)
                     .replace('T', ' ')}',
-                '${new Date(new Date().setDate(new Date().getDay() + 1)).toISOString().slice(0, 19).replace('T', ' ')}'
+                '${new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().slice(0, 19).replace('T', ' ')}'
             );
         `);
     } catch (err) {
