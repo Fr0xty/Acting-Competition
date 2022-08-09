@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import TextAreaField from './TextAreaField';
 
 interface EventAddProperties {
-    setCurrentSubPage: React.Dispatch<React.SetStateAction<'list' | 'add'>>;
+    setCurrentSubPage: React.Dispatch<React.SetStateAction<'list' | 'add' | 'event'>>;
 }
 
 const EventAdd = ({ setCurrentSubPage }: EventAddProperties) => {

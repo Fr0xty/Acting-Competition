@@ -4,15 +4,16 @@ import HomePage from '../pages/userPages/HomePage';
 
 interface JudgePageManagerProperties {
     page: string;
+    eventId: string | undefined;
 }
 
-const JudgePageManager = ({ page }: JudgePageManagerProperties) => {
+const JudgePageManager = ({ page, eventId }: JudgePageManagerProperties) => {
     switch (page) {
         case 'home':
             return <HomePage userType="judge" />;
 
         case 'events':
-            return <Events userType="judge" />;
+            return <Events userType="judge" eventId={eventId} />;
 
         default:
             return <Navigate to="/home" replace />;

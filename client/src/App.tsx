@@ -21,6 +21,7 @@ const App = () => {
 
                     <Route path="/home" element={<UserPage page="home" />} />
                     <Route path="/events" element={<UserPage page="events" />} />
+                    <Route path="/events/:eventId" element={<UserPage page="events" />} />
                     <Route path="/register" element={<UserPage page="register" />} />
                 </Routes>
             </Router>

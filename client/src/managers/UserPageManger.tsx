@@ -6,18 +6,19 @@ import ParticipantPageManager from './ParticipantPageManager';
 interface UserPageManagerProperties {
     userType: string;
     page: string;
+    eventId: string | undefined;
 }
 
-const UserPageManager = ({ userType, page }: UserPageManagerProperties) => {
+const UserPageManager = ({ userType, page, eventId }: UserPageManagerProperties) => {
     switch (userType) {
         case 'admin':
-            return <AdminPageManager page={page} />;
+            return <AdminPageManager page={page} eventId={eventId} />;
 
         case 'participant':
-            return <ParticipantPageManager page={page} />;
+            return <ParticipantPageManager page={page} eventId={eventId} />;
 
         case 'judge':
-            return <JudgePageManager page={page} />;
+            return <JudgePageManager page={page} eventId={eventId} />;
 
         case 'none':
             return <Navigate to="/" replace />;

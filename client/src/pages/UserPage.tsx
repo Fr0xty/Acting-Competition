@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import UserPageManager from '../managers/UserPageManger';
 
 interface UserPageProperties {
@@ -6,9 +7,13 @@ interface UserPageProperties {
 }
 
 const UserPage = ({ page }: UserPageProperties) => {
+    const { eventId } = useParams();
+
     const [userType, setUserType] = useState('');
 
     useEffect(() => {
+        console.log(eventId);
+
         (async () => {
             /**
              * know the user's account type
@@ -24,7 +29,7 @@ const UserPage = ({ page }: UserPageProperties) => {
         })();
     }, []);
 
-    return <UserPageManager userType={userType} page={page} />;
+    return <UserPageManager userType={userType} page={page} eventId={eventId} />;
 };
 
 export default UserPage;

@@ -6,7 +6,7 @@ import addIcon from '../assets/images/add.svg';
 
 interface EventListProperties {
     userType: 'admin' | 'participant' | 'judge';
-    setCurrentSubPage: React.Dispatch<React.SetStateAction<'list' | 'add'>>;
+    setCurrentSubPage: React.Dispatch<React.SetStateAction<'list' | 'add' | 'event'>>;
 }
 
 const EventList = ({ userType, setCurrentSubPage }: EventListProperties) => {
@@ -60,26 +60,32 @@ const EventList = ({ userType, setCurrentSubPage }: EventListProperties) => {
                 }
 
                 return (
-                    <div className="selection">
-                        <h3>{event.name}</h3>
-                        <p>{event.description}</p>
+                    <a href={`/events/${event.event_id}`}>
+                        <div className="selection">
+                            <h3>{event.name}</h3>
+                            <p>{event.description}</p>
 
-                        <div className={`metadata ${spanClassName}`}>
-                            <span className="status">{status}</span>
-                            <span className="text">{text}</span>
-                            {userType === 'participant' && status === 'Ended' && (
-                                <button className="ended" disabled>
-                                    Ended
-                                </button>
-                            )}
-                            {userType === 'participant' && status !== 'Ended' && (
-                                <button className="not-ended" disabled={event.participant_id || status === 'On Going'}>
-                                    {status === 'Starting' && (event.participant_id ? 'Joined' : 'Join')}
-                                    {status === 'On Going' && (event.participant_id ? 'Joined' : 'Registration Closed')}
-                                </button>
-                            )}
+                            <div className={`metadata ${spanClassName}`}>
+                                <span className="status">{status}</span>
+                                <span className="text">{text}</span>
+                                {userType === 'participant' && status === 'Ended' && (
+                                    <button className="ended" disabled>
+                                        Ended
+                                    </button>
+                                )}
+                                {userType === 'participant' && status !== 'Ended' && (
+                                    <button
+                                        className="not-ended"
+                                        disabled={event.participant_id || status === 'On Going'}
+                                    >
+                                        {status === 'Starting' && (event.participant_id ? 'Joined' : 'Join')}
+                                        {status === 'On Going' &&
+                                            (event.participant_id ? 'Joined' : 'Registration Closed')}
+                                    </button>
+                                )}
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 );
             })}
 
