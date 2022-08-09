@@ -14,8 +14,11 @@ export const sqlGetEvents = async (userType: 'admin' | 'participant' | 'judge', 
     try {
         if (userType === 'participant') {
             const [rows, _] = await pool.query(`
-                SELECT * FROM event LEFT JOIN event_user
+                SELECT event.*, event_user.participant_id, event_user.placement, event_user.total_marks 
+                
+                FROM event LEFT JOIN event_user
                 ON event.event_id = event_user.event_id
+                
                 WHERE (event_user.participant_id = ${userId} or event_user.participant_id is null);
             `);
             console.log(rows);
