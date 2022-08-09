@@ -14,6 +14,19 @@ const UserNavbar = () => {
         })();
     }, []);
 
+    const logoutClicked = async () => {
+        const confirm = window.confirm('Are you sure you want to log out?');
+        if (!confirm) return;
+
+        /**
+         * want to logout
+         */
+        await fetch('/api/auth/reset-session', {
+            method: 'post',
+        });
+        document.location.href = '/';
+    };
+
     return (
         <div className="user-navbar">
             <div className="user">
@@ -21,7 +34,9 @@ const UserNavbar = () => {
                 <p>{userInfo.userType}</p>
             </div>
 
-            <button className="logout-btn no-select">Log Out</button>
+            <button className="logout-btn no-select" onClick={logoutClicked}>
+                Log Out
+            </button>
         </div>
     );
 };
