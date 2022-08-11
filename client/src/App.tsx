@@ -23,6 +23,8 @@ const App = () => {
                     <Route path="/events" element={<UserPage page="events" />} />
                     <Route path="/events/:eventId" element={<UserPage page="events" />} />
                     <Route path="/register" element={<UserPage page="register" />} />
+                    <Route path="/item" element={<UserPage page="item" />} />
+                    <Route path="/users" element={<UserPage page="users" />} />
                 </Routes>
             </Router>
         </div>
@@ -30,4 +32,3 @@ const App = () => {
 };
 
 export default App;
-

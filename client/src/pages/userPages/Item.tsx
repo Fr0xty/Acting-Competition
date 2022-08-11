@@ -1,13 +1,13 @@
 import UserNavbar from '../../components/UserNavbar';
 import UserPageNavigation from '../../components/UserPageNavigation';
 
-const Register = () => {
+const Item = () => {
     return (
-        <div className="register">
+        <div className="item">
             <UserNavbar />
-            <UserPageNavigation userType="admin" currentPage="register" />
+            <UserPageNavigation userType="admin" currentPage="item" />
         </div>
     );
 };
 
-export default Register;
+export default Item;

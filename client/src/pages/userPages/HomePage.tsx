@@ -9,7 +9,7 @@ const HomePage = ({ userType }: HomePageProperties) => {
     return (
         <div className="admin-home">
             <UserNavbar />
-            <UserPageNavigation userType={userType} />
+            <UserPageNavigation userType={userType} currentPage="home" />
         </div>
     );
 };
