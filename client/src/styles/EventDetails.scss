@@ -1,0 +1,41 @@
+.event-details {
+    padding: 1em 2em;
+    border: 1px solid var(--jet);
+    border-radius: 0.3em;
+    background: rgba($color: var(--secondary-color-rgb), $alpha: 0.3);
+    width: 80%;
+    margin: 3em auto 2em;
+
+    h2 {
+        font-size: 2em;
+        margin: 0;
+        text-decoration: underline;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    p {
+        font-size: 1.2em;
+        margin: 0.3em 0 1.5em;
+    }
+
+    .dates {
+        display: flex;
+        justify-content: space-evenly;
+
+        .date {
+            font-weight: bold;
+            margin-left: 0.4em;
+            font-size: 1.1em;
+
+            &.success {
+                color: var(--dark-success);
+            }
+
+            &.danger {
+                color: var(--danger);
+            }
+        }
+    }
+}
