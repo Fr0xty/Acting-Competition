@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
+import EndedEventTable from './EndedEventTable';
 import EventDetails from './EventDetails';
+import OnGoingEventTable from './OnGoingEventTable';
+import StartingEventTable from './StartingEventTable';
 
 interface EventProperties {
     userType: 'admin' | 'participant' | 'judge';
@@ -16,14 +19,14 @@ const Event = ({ userType, eventId }: EventProperties) => {
     /**
      * calculate current event status
      */
-    const processEventStatus = () => {
+    useEffect(() => {
         if (!eventData.eventDetail) return;
         const { register_deadline: registerDeadline, event_deadline: eventDeadline } = eventData.eventDetail;
 
         if (new Date(eventDeadline) < new Date()) return setEventStatus('ended');
         if (new Date(registerDeadline) < new Date()) return setEventStatus('ongoing');
         setEventStatus('starting');
-    };
+    }, [eventData]);
 
     /**
      * fetch event data and process
@@ -34,13 +37,15 @@ const Event = ({ userType, eventId }: EventProperties) => {
             if (getEventInfoReq.status !== 200) return;
 
             setEventData(await getEventInfoReq.json());
-            processEventStatus();
         })();
     }, [eventId]);
 
     return (
         <div className="event">
             <EventDetails eventStatus={eventStatus} eventDetail={eventData.eventDetail} />
+            {eventStatus === 'starting' && <StartingEventTable />}
+            {eventStatus === 'ongoing' && <OnGoingEventTable />}
+            {eventStatus === 'ended' && <EndedEventTable userType={userType} eventUsers={eventData.eventUsers} />}
         </div>
     );
 };

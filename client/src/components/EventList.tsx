@@ -23,7 +23,7 @@ const EventList = ({ userType, setCurrentSubPage }: EventListProperties) => {
 
     return (
         <div className="event-list">
-            {events.map((event) => {
+            {events.map((event, i) => {
                 /**
                  * set status based on event deadlines
                  */
@@ -60,7 +60,7 @@ const EventList = ({ userType, setCurrentSubPage }: EventListProperties) => {
                 }
 
                 return (
-                    <a href={`/events/${event.event_id}`}>
+                    <a href={`/events/${event.event_id}`} key={i}>
                         <div className="selection">
                             <h3>{event.name}</h3>
                             <p>{event.description}</p>

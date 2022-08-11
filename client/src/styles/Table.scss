@@ -1,0 +1,32 @@
+.table {
+    table,
+    tr {
+        border: 1px solid rgba($color: var(--jet-rgb), $alpha: 0.4);
+        border-collapse: collapse;
+    }
+
+    table {
+        margin: 0 auto;
+
+        td {
+            padding: 0.3em 2em;
+            text-align: center;
+        }
+
+        thead {
+            background: rgba($color: var(--primary-color-rgb), $alpha: 0.5);
+        }
+
+        tbody {
+            tr {
+                &.light {
+                    background: white;
+                }
+
+                &.dark {
+                    background: rgb(237, 237, 237);
+                }
+            }
+        }
+    }
+}

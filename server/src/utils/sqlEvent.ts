@@ -21,7 +21,6 @@ export const sqlGetEvents = async (userType: 'admin' | 'participant' | 'judge', 
                 
                 WHERE (event_user.participant_id = ${userId} or event_user.participant_id is null);
             `);
-            console.log(rows);
             return rows;
         }
 
