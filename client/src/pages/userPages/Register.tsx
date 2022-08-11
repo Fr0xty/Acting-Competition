@@ -1,3 +1,4 @@
+import SignupForm from '../../components/SignupForm';
 import UserNavbar from '../../components/UserNavbar';
 import UserPageNavigation from '../../components/UserPageNavigation';
 
@@ -6,6 +7,7 @@ const Register = () => {
         <div className="register">
             <UserNavbar />
             <UserPageNavigation userType="admin" currentPage="register" />
+            <SignupForm />
         </div>
     );
 };
