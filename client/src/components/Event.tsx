@@ -7,23 +7,27 @@ interface EventProperties {
 }
 
 const Event = ({ userType, eventId }: EventProperties) => {
+    const [eventStatus, setEventStatus] = useState<null | 'starting' | 'ongoing' | 'ended'>(null);
     const [eventData, setEventData] = useState<{ eventDetail: any; eventUsers: any[] | null }>({
         eventDetail: null,
         eventUsers: null,
     });
-    const [eventStatus, setEventStatus] = useState<null | 'starting' | 'ongoing' | 'ended'>(null);
 
+    /**
+     * calculate current event status
+     */
     const processEventStatus = () => {
         if (!eventData.eventDetail) return;
-
         const { register_deadline: registerDeadline, event_deadline: eventDeadline } = eventData.eventDetail;
-        console.log(eventData);
 
         if (new Date(eventDeadline) < new Date()) return setEventStatus('ended');
         if (new Date(registerDeadline) < new Date()) return setEventStatus('ongoing');
         setEventStatus('starting');
     };
 
+    /**
+     * fetch event data and process
+     */
     useEffect(() => {
         (async () => {
             const getEventInfoReq = await fetch(`/api/resource/get-event?event-id=${eventId}`);
