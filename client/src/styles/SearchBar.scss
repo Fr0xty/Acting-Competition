@@ -1,0 +1,32 @@
+.search-bar {
+    display: flex;
+    justify-content: center;
+    margin-top: 3em;
+
+    .wrapper {
+        position: relative;
+
+        img {
+            position: absolute;
+            padding: 0.4em;
+            height: 2em;
+        }
+
+        input {
+            font-size: 1.2em;
+            background: rgba($color: white, $alpha: 0.7);
+            padding: 0.4em 1em;
+            padding-left: 2.7em;
+            text-align: center;
+            border: 1px solid var(--jet);
+            border-radius: 0.3em;
+            outline: none;
+            transition: all 0.2s;
+            transition-property: border;
+
+            &:focus {
+                border: 1px solid var(--darker-secondary-color);
+            }
+        }
+    }
+}

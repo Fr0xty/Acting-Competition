@@ -31,7 +31,7 @@ const EndedEventTable = ({ userType, eventUsers }: EndedEventTableProperties) =>
                     {eventUsers &&
                         eventUsers.map((user, i) => {
                             return (
-                                <tr key={i} className={i % 2 === 0 ? 'dark' : 'light'}>
+                                <tr key={i} className={i % 2 ? 'dark' : 'light'}>
                                     {userType !== 'participant' && <td>{user.participant_id}</td>}
                                     <td>{user.name}</td>
                                     {userType !== 'participant' && <td>{user.phone_number}</td>}

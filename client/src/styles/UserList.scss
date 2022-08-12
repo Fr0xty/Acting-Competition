@@ -1,0 +1,19 @@
+.user-list {
+    margin-top: 2em;
+
+    .table table tr {
+        td.user-type {
+            font-weight: bold;
+        }
+
+        &.admin {
+            background: rgba($color: var(--admin-color-rgb), $alpha: 0.4);
+        }
+        &.participant {
+            background: rgba($color: var(--participant-color-rgb), $alpha: 0.4);
+        }
+        &.judge {
+            background: rgba($color: var(--judge-color-rgb), $alpha: 0.4);
+        }
+    }
+}
