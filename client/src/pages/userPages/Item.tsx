@@ -10,21 +10,22 @@ const Item = () => {
     const [searchParams] = useSearchParams();
 
     const [eventId, setEventId] = useState<null | string>('');
-    const [items, setItems] = useState('');
+    const [items, setItems] = useState([]);
 
     useEffect(() => {
         setEventId(searchParams.get('event-id'));
 
         (async () => {
-            // const itemReq = await fetch(`/api/resource/items?event-id=${}`);
+            const itemReq = await fetch(`/api/resource/items?event-id=${eventId}`);
+            setItems(await itemReq.json());
         })();
-    }, [searchParams]);
+    }, [searchParams, eventId]);
 
     return (
         <div className="item">
             <UserNavbar />
             <UserPageNavigation userType="admin" currentPage="item" />
-            {eventId && <ItemTable />}
+            {eventId && <ItemTable items={items} />}
             {!eventId && (
                 <div className="no-event-id">
                     <h1>This page is to edit items.</h1>
