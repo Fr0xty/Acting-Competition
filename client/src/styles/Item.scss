@@ -11,22 +11,27 @@
             font-size: 1.3em;
 
             button {
-                font-size: 0.9em;
+                margin: 0 0.7em;
+                font-size: 0.8em;
+                height: 2.3em;
+                width: 6em;
                 font-weight: bold;
-                margin: 0 0.5em;
-                background: var(--dark-secondary-color);
-                color: var(--jet);
+                color: white;
+                background: var(--alternative-color);
                 border: 1px solid var(--jet);
-                border-radius: 0.3em;
-                padding: 0.2em 0.6em;
+                border-radius: 0.2em;
+                padding: 0.3em 0.6em;
+                transition: all 0.2s;
+                transition-property: filter;
+                white-space: nowrap;
 
                 &:hover {
-                    filter: brightness(95%);
+                    filter: brightness(90%);
                 }
 
                 &:active {
-                    padding: 0.1em 0.5em;
-                    margin: 0.1em 0.6em;
+                    height: 2.1em;
+                    width: 5.8em;
                 }
             }
         }

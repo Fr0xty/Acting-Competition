@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import '../styles/EventDetails.scss';
 
 interface EventDetailsProperties {
@@ -40,6 +41,15 @@ const EventDetails = ({ eventDetail, eventStatus }: EventDetailsProperties) => {
                             </span>
                         </span>
                     </div>
+
+                    <button
+                        disabled={eventStatus !== 'starting'}
+                        onClick={() => {
+                            document.location.href = `/item?event-id=${eventDetail.event_id}`;
+                        }}
+                    >
+                        Edit Items
+                    </button>
                 </>
             )}
         </div>

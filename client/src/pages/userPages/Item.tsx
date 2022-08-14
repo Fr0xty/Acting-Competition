@@ -18,7 +18,8 @@ const Item = () => {
         (async () => {
             // const itemReq = await fetch(`/api/resource/items?event-id=${}`);
         })();
-    }, []);
+    }, [searchParams]);
+
     return (
         <div className="item">
             <UserNavbar />

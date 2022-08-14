@@ -38,4 +38,26 @@
             }
         }
     }
+
+    button {
+        display: block;
+        margin: 3em auto 1em;
+        font-size: 1em;
+        font-weight: bold;
+        color: white;
+        background: var(--alternative-color);
+        border: 1px solid var(--jet);
+        border-radius: 0.2em;
+        padding: 0.3em 0.6em;
+        transition: all 0.2s;
+        transition-property: filter;
+
+        &:hover {
+            filter: brightness(90%);
+        }
+
+        &:disabled {
+            filter: brightness(60%);
+        }
+    }
 }
