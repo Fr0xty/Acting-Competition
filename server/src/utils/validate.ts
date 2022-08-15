@@ -79,3 +79,26 @@ export const validateEventData = async (userAddEventData: any): Promise<void | V
         };
     }
 };
+
+/**
+ * validate form data with event item schema
+ * @param userAddEventItemData form data to be validated for add event item
+ * @returns void if success, ValidateError if not successful
+ */
+export const validateEventItemData = async (userAddEventItemData: any): Promise<void | ValidateError> => {
+    const schema = Joi.object({
+        name: Joi.string().min(1).max(30).required(),
+        full_marks: Joi.string().min(1).max(10).required(),
+        judge_id: Joi.string().length(12).required(),
+        event_id: Joi.string().min(1).required(),
+    });
+
+    try {
+        await schema.validateAsync(userAddEventItemData);
+    } catch (e: any) {
+        return {
+            field: e.details[0].path[e.details[0].path.length - 1],
+            message: e.details[0].message,
+        };
+    }
+};
