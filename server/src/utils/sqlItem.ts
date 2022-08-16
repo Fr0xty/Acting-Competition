@@ -23,10 +23,10 @@ export const sqlAddEventItem = async (itemData: ItemData) => {
         await pool.execute(`
             INSERT INTO item (name, full_marks, judge_id, event_id)
             VALUES (
-                ${itemData.name},
-                ${itemData.full_marks},
-                ${itemData.judge_id},
-                ${itemData.event_id}
+                '${itemData.name}',
+                '${itemData.full_marks}',
+                '${itemData.judge_id}',
+                '${itemData.event_id}'
             );
         `);
     } catch {}

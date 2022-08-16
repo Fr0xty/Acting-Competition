@@ -62,3 +62,13 @@ export const sqlGetEventInfo = async (userType: 'admin' | 'participant' | 'judge
         eventUsers: eventUserRows,
     };
 };
+
+export const sqlGetEventAvailableJudges = async (eventId: string) => {
+    const [rows, _] = await pool.query(`
+        SELECT judge.judge_id, judge.name
+        FROM judge LEFT JOIN item
+        ON judge.judge_id = item.judge_id AND item.event_id = '${eventId}'
+        WHERE item.judge_id IS NULL;
+    `);
+    return rows;
+};

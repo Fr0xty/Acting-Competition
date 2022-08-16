@@ -8,7 +8,7 @@ interface ItemFormProperties {
 }
 
 const ItemForm = ({ eventId }: ItemFormProperties) => {
-    const [judges, setJudges] = useState([]);
+    const [judges, setJudges] = useState<any[]>([]);
 
     const [itemName, setItemName] = useState('');
     const [fullMarks, setFullMarks] = useState('');
@@ -52,20 +52,21 @@ const ItemForm = ({ eventId }: ItemFormProperties) => {
         }
     };
 
+    /**
+     * fetch judges to be selected
+     */
     useEffect(() => {
         (async () => {
-            /**
-             * fetch judges to be selected
-             */
-            const judgesReq = await fetch(`/api/resource/get-judges`);
+            const judgesReq = await fetch(`/api/resource/event-available-judges?event-id=${eventId}`);
             if (judgesReq.status !== 200) return;
-
             setJudges(await judgesReq.json());
         })();
+    }, [eventId]);
 
-        /**
-         * for focus styling
-         */
+    /**
+     * for focus styling
+     */
+    useEffect(() => {
         const formInputs = document.querySelectorAll('.item-form .input-field input, textarea');
 
         formInputs.forEach((input) => {
@@ -99,15 +100,18 @@ const ItemForm = ({ eventId }: ItemFormProperties) => {
             />
 
             <select
+                defaultValue="placeholder"
                 onChange={(e) => {
                     setJudgeId(e.target.value);
                 }}
             >
-                <option disabled={true} selected>
+                <option value="placeholder" disabled={true}>
                     Select Judge
                 </option>
-                <option value="1">1</option>
-                <option value="2">2</option>
+                {judges.length &&
+                    judges.map((judge) => {
+                        return <option value={judge.judge_id}>{judge.name}</option>;
+                    })}
             </select>
 
             <button onClick={addItemClicked}>Add Item</button>

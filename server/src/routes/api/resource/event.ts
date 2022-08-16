@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import accessTokenCheck from '../../../middlewares/accessTokenCheck.js';
 import { sqlGetUserWithAccessToken } from '../../../utils/sqlAcount.js';
-import { sqlAddEvent, sqlGetEventInfo, sqlGetEvents } from '../../../utils/sqlEvent.js';
+import { sqlAddEvent, sqlGetEventAvailableJudges, sqlGetEventInfo, sqlGetEvents } from '../../../utils/sqlEvent.js';
 import { validateEventData } from '../../../utils/validate.js';
 
 const router = Router();
@@ -51,6 +51,21 @@ router.get('/get-event', accessTokenCheck, async (req, res) => {
     if (!eventInfo) return res.status(404).send('No event found with "event-id" provided.');
 
     res.json(eventInfo);
+});
+
+router.get('/event-available-judges', accessTokenCheck, async (req, res) => {
+    const userInfo = await sqlGetUserWithAccessToken(req.accessToken!);
+    if (!userInfo) return res.sendStatus(401);
+    if (userInfo.userType !== 'admin') return res.sendStatus(403);
+
+    /**
+     * get event-id query string
+     */
+    const { 'event-id': eventId } = req.query;
+    if (!eventId) return res.status(400).send('Missing "event-id" query string.');
+
+    const judges = await sqlGetEventAvailableJudges(eventId.toString());
+    res.json(judges);
 });
 
 export default router;

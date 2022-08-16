@@ -12,8 +12,6 @@ const UserPage = ({ page }: UserPageProperties) => {
     const [userType, setUserType] = useState('');
 
     useEffect(() => {
-        console.log(eventId);
-
         (async () => {
             /**
              * know the user's account type
