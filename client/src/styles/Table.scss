@@ -1,4 +1,10 @@
 .table {
+    h2 {
+        text-align: center;
+        margin: 2em 0 1em;
+        font-size: 1.7em;
+    }
+
     table,
     tr {
         border: 1px solid rgba($color: var(--jet-rgb), $alpha: 0.4);

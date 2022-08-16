@@ -109,8 +109,12 @@ const ItemForm = ({ eventId }: ItemFormProperties) => {
                     Select Judge
                 </option>
                 {judges.length &&
-                    judges.map((judge) => {
-                        return <option value={judge.judge_id}>{judge.name}</option>;
+                    judges.map((judge, i) => {
+                        return (
+                            <option key={i} value={judge.judge_id}>
+                                {judge.name}
+                            </option>
+                        );
                     })}
             </select>
 

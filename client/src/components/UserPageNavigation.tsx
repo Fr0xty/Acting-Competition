@@ -7,7 +7,7 @@ interface UserPageNavigationProperties {
 
 const UserPageNavigation = ({ userType, currentPage }: UserPageNavigationProperties) => {
     return (
-        <div className="user-page-navigation">
+        <div className="user-page-navigation no-select">
             <a href="/home">
                 <div className={`btn ${currentPage === 'home' && 'current-page'}`}>
                     <span>Home</span>

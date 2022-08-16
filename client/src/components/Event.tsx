@@ -43,8 +43,8 @@ const Event = ({ userType, eventId }: EventProperties) => {
     return (
         <div className="event">
             <EventDetails eventStatus={eventStatus} eventDetail={eventData.eventDetail} />
-            {eventStatus === 'starting' && <StartingEventTable />}
-            {eventStatus === 'ongoing' && <OnGoingEventTable />}
+            {eventStatus === 'starting' && <StartingEventTable userType={userType} eventUsers={eventData.eventUsers} />}
+            {eventStatus === 'ongoing' && <OnGoingEventTable userType={userType} eventUsers={eventData.eventUsers} />}
             {eventStatus === 'ended' && <EndedEventTable userType={userType} eventUsers={eventData.eventUsers} />}
         </div>
     );

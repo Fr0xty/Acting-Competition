@@ -17,6 +17,8 @@ interface EndedEventTableProperties {
 const EndedEventTable = ({ userType, eventUsers }: EndedEventTableProperties) => {
     return (
         <div className="table">
+            <h2>Joined Participant</h2>
+
             <table>
                 <thead>
                     <tr>

@@ -21,9 +21,9 @@ const ItemTable = ({ items }: ItemTableProperties) => {
                     </thead>
                     <tbody>
                         {!!items.length &&
-                            items.map((item) => {
+                            items.map((item, i) => {
                                 return (
-                                    <tr>
+                                    <tr key={i} className={i % 2 ? 'dark' : 'light'}>
                                         <td>{item.name}</td>
                                         <td>{item.full_marks}</td>
                                         <td>{item.judge_name}</td>
