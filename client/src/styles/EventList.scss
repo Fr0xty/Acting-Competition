@@ -71,6 +71,8 @@
                 padding: 0.3em 0;
                 border-radius: 0.4em;
                 border: 1px solid var(--jet);
+                font-weight: bold;
+                color: white;
 
                 &.ended {
                     background: var(--danger);
@@ -78,6 +80,10 @@
 
                 &.not-ended {
                     background: var(--dark-success);
+                }
+
+                &:disabled {
+                    filter: brightness(60%) saturate(40%);
                 }
             }
         }

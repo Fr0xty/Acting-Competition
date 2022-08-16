@@ -12,6 +12,8 @@ interface EventListProperties {
 const EventList = ({ userType, setCurrentSubPage }: EventListProperties) => {
     const [events, setEvents] = useState<any[]>([]);
 
+    const joinEventClicked = async (eventId: string) => {};
+
     useEffect(() => {
         (async () => {
             const fetchEventsReq = await fetch('/api/resource/get-events');
