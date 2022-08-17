@@ -42,8 +42,8 @@ const OnGoingEventTable = ({ userType, eventUsers }: OnGoingEventTableProperties
                         <td>Name</td>
                         {userType !== 'participant' && <td>Phone Number</td>}
                         {
-                            /* admin: show all items */
-                            userType === 'admin' &&
+                            /* show all items */
+                            userType !== 'participant' &&
                                 itemNames.length &&
                                 itemNames.map((itemName) => {
                                     return <td>{itemName}</td>;
@@ -59,10 +59,24 @@ const OnGoingEventTable = ({ userType, eventUsers }: OnGoingEventTableProperties
                                     {userType !== 'participant' && <td>{user.participant_id}</td>}
                                     <td>{user.name}</td>
                                     {userType !== 'participant' && <td>{user.phone_number}</td>}
-                                    {userType === 'admin' &&
-                                        itemNames.map((itemName) => {
-                                            return <td>{user[itemName] || '-'}</td>;
-                                        })}
+                                    {
+                                        /* show marks, if !marks, admin: -, judge set marks */
+                                        userType !== 'participant' &&
+                                            itemNames.map((itemName) => {
+                                                return (
+                                                    <td>
+                                                        {user[itemName] || userType === 'admin' ? (
+                                                            '-'
+                                                        ) : (
+                                                            <div>
+                                                                <input type="text" />
+                                                                <button>Give Marks</button>
+                                                            </div>
+                                                        )}
+                                                    </td>
+                                                );
+                                            })
+                                    }
                                 </tr>
                             );
                         })}

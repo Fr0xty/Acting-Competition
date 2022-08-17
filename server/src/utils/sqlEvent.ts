@@ -1,5 +1,5 @@
 import { AddEventData, EventTableReturnRow } from 'acting-comp';
-import { sqlGetEventItems } from './sqlItem.js';
+import { sqlGetEventItems, sqlGetEventJudgeItem } from './sqlItem.js';
 import pool from './sqlPool.js';
 
 export const sqlAddEvent = async (eventData: AddEventData) => {
@@ -120,8 +120,40 @@ export const sqlGetEventInfo = async (userType: 'admin' | 'participant' | 'judge
         }
 
         if (userType === 'judge') {
+            const judgeEventItem = (await sqlGetEventJudgeItem(userId, eventDetail.event_id))?.shift();
+            console.log(judgeEventItem);
+
+            let itemQuery = '';
+            /**
+             * judge doesn't have an assigned item in event
+             */
+            if (!judgeEventItem) {
+                itemQuery = `
+                    , '-' AS 'No Item Assigned'
+                `;
+            }
+            if (judgeEventItem) {
+                itemQuery += `
+                    ,(
+                        SELECT marks.marks FROM marks
+                        WHERE marks.item_id = ${judgeEventItem.item_id}
+                        AND marks.event_id = ${eventId}
+                        AND marks.participant_id = event_user.participant_id
+                    ) as ${judgeEventItem.name}
+                `;
+            }
+
             eventUserQuery = `
-                // TODO get all users in the event with assigned item
+                SELECT 
+                    participant.participant_id,
+                    participant.name,
+                    participant.phone_number
+                    ${itemQuery}
+                        
+                FROM event_user LEFT JOIN participant
+                ON event_user.participant_id = participant.participant_id
+                
+                WHERE event_user.event_id = ${eventId};
             `;
         }
 
