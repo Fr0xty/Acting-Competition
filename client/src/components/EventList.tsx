@@ -12,7 +12,14 @@ interface EventListProperties {
 const EventList = ({ userType, setCurrentSubPage }: EventListProperties) => {
     const [events, setEvents] = useState<any[]>([]);
 
-    const joinEventClicked = async (eventId: string) => {};
+    const joinEventClicked = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        const eventId = (e.target as HTMLButtonElement).id;
+
+        await fetch(`/api/resource/join-event?event-id=${eventId}`, {
+            method: 'post',
+        });
+        alert('Joined event.');
+    };
 
     useEffect(() => {
         (async () => {
@@ -79,6 +86,8 @@ const EventList = ({ userType, setCurrentSubPage }: EventListProperties) => {
                                     <button
                                         className="not-ended"
                                         disabled={event.participant_id || status === 'On Going'}
+                                        id={event.event_id}
+                                        onClick={joinEventClicked}
                                     >
                                         {status === 'Starting' && (event.participant_id ? 'Joined' : 'Join')}
                                         {status === 'On Going' &&

@@ -73,6 +73,9 @@
                 border: 1px solid var(--jet);
                 font-weight: bold;
                 color: white;
+                transition: all 0.2s;
+                transition-property: filter;
+                z-index: 999;
 
                 &.ended {
                     background: var(--danger);
@@ -84,6 +87,10 @@
 
                 &:disabled {
                     filter: brightness(60%) saturate(40%);
+                }
+
+                &:not(:disabled):hover {
+                    filter: brightness(88%);
                 }
             }
         }

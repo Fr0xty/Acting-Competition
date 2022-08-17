@@ -1,8 +1,8 @@
-import { ItemData } from 'acting-comp';
+import { Item, ItemData } from 'acting-comp';
 import pool from './sqlPool.js';
 
 export const sqlGetEventItems = async (eventId: string) => {
-    const [rows, _] = await pool.query(`
+    const [rows, _] = (await pool.query(`
         SELECT 
             item.item_id,
             item.name,
@@ -14,7 +14,8 @@ export const sqlGetEventItems = async (eventId: string) => {
         ON item.judge_id = judge.judge_id
 
         WHERE item.event_id = '${eventId}';
-    `);
+    `)) as [Item[], any];
+
     return rows;
 };
 
@@ -31,3 +32,21 @@ export const sqlAddEventItem = async (itemData: ItemData) => {
         `);
     } catch {}
 };
+
+// export const sqlGetEventJudgeItem = async (judgeId: string, eventId: string) => {
+//     const [rows, _] = (await pool.query(`
+//         SELECT
+//             item.item_id,
+//             item.name,
+//             item.full_marks,
+//             judge.judge_id,
+//             judge.name as judge_name
+
+//         FROM item LEFT JOIN judge
+//         ON item.judge_id = judge.judge_id
+
+//         WHERE item.event_id = '${eventId}';
+//     `)) as [Item[], any];
+
+//     return rows;
+// };

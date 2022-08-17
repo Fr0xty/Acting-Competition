@@ -12,5 +12,6 @@ declare module 'acting-comp' {
         description: string;
         register_deadline: string;
         event_deadline: string;
+        event_status: 'starting' | 'ongoing' | 'ended';
     }
 }

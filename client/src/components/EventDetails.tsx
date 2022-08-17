@@ -1,7 +1,8 @@
-import { useState } from 'react';
 import '../styles/EventDetails.scss';
 
 interface EventDetailsProperties {
+    userType: 'admin' | 'participant' | 'judge';
+
     eventDetail: {
         description: string;
         event_deadline: string;
@@ -13,7 +14,7 @@ interface EventDetailsProperties {
     eventStatus: null | 'starting' | 'ongoing' | 'ended';
 }
 
-const EventDetails = ({ eventDetail, eventStatus }: EventDetailsProperties) => {
+const EventDetails = ({ userType, eventDetail, eventStatus }: EventDetailsProperties) => {
     return (
         <div className="event-details">
             {eventDetail === null && <p>loading..</p>}
@@ -42,14 +43,16 @@ const EventDetails = ({ eventDetail, eventStatus }: EventDetailsProperties) => {
                         </span>
                     </div>
 
-                    <button
-                        disabled={eventStatus !== 'starting'}
-                        onClick={() => {
-                            document.location.href = `/item?event-id=${eventDetail.event_id}`;
-                        }}
-                    >
-                        Edit Items
-                    </button>
+                    {userType === 'admin' && (
+                        <button
+                            disabled={eventStatus !== 'starting'}
+                            onClick={() => {
+                                document.location.href = `/item?event-id=${eventDetail.event_id}`;
+                            }}
+                        >
+                            Edit Items
+                        </button>
+                    )}
                 </>
             )}
         </div>
