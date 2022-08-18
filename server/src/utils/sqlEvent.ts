@@ -121,7 +121,6 @@ export const sqlGetEventInfo = async (userType: 'admin' | 'participant' | 'judge
 
         if (userType === 'judge') {
             const judgeEventItem = (await sqlGetEventJudgeItem(userId, eventDetail.event_id))?.shift();
-            console.log(judgeEventItem);
 
             let itemQuery = '';
             /**

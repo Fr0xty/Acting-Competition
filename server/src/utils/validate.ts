@@ -102,3 +102,40 @@ export const validateEventItemData = async (userAddEventItemData: any): Promise<
         };
     }
 };
+
+/**
+ * validate form data with marks schema
+ * @param userSubmitMarksData form data to be validated for submiting marks
+ * @returns void if success, ValidateError if not successful
+ */
+export const validateSubmitMarksData = async (
+    userSubmitMarksData: any,
+    fullMarks: string
+): Promise<void | ValidateError> => {
+    const schema = Joi.object({
+        marks: Joi.string()
+            .min(1)
+            .regex(/^[0-9]+$/)
+            .required(),
+        participant_id: Joi.string().required(),
+    });
+
+    try {
+        await schema.validateAsync(userSubmitMarksData);
+
+        /**
+         * check if marks given is over full marks
+         */
+        if (Number(userSubmitMarksData.marks) > Number(fullMarks)) {
+            return {
+                field: '',
+                message: `Maximum marks allowed is ${fullMarks}.`,
+            };
+        }
+    } catch (e: any) {
+        return {
+            field: '',
+            message: e.details[0].message,
+        };
+    }
+};

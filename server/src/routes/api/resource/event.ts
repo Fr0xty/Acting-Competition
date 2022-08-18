@@ -55,7 +55,6 @@ router.get('/get-event', accessTokenCheck, async (req, res) => {
     const userInfo = await sqlGetUserWithAccessToken(req.accessToken!);
     const eventInfo = await sqlGetEventInfo(userInfo!.userType, userInfo!.userId, eventId.toString());
     if (!eventInfo) return res.status(404).send('No event found with "event-id" provided.');
-    console.log(eventInfo);
 
     res.json(eventInfo);
 });
