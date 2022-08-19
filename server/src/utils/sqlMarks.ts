@@ -14,3 +14,13 @@ export const sqlAddMarks = async (eventId: string, judgeItemId: string, submitMa
         `);
     } catch {}
 };
+
+export const sqlApproveMarks = async (eventId: string, participantId: string, adminId: string) => {
+    try {
+        await pool.execute(`
+            UPDATE marks
+            SET admin_id = '${adminId}'
+            WHERE event_id = '${eventId}' AND participant_id = '${participantId}';
+        `);
+    } catch {}
+};

@@ -51,3 +51,20 @@ export const sqlGetEventJudgeItem = async (judgeId: string, eventId: string) => 
 
     return rows;
 };
+
+/**
+ * check if all of user's items in an event are graded
+ */
+export const sqlCheckEventUserFullyGraded = async (participantId: string, eventId: string) => {
+    const eventItems = await sqlGetEventItems(eventId);
+
+    const [userGradedItems, __] = (await pool.query(`
+        SELECT * FROM marks
+        WHERE participant_id = '${participantId}'
+        AND event_id = '${eventId}'
+        AND marks IS NOT NULL;
+    `)) as [any[], any];
+
+    if (eventItems.length === userGradedItems.length) return true;
+    return false;
+};

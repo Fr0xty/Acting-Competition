@@ -44,12 +44,31 @@ const OnGoingEventTable = ({ userType, eventUsers, eventId }: OnGoingEventTableP
         alert(await submitMarksReq.text());
     };
 
+    const approveMarks = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        const participantId = (e.target as HTMLButtonElement).classList[0].replace('--', '');
+
+        const approveMarksReq = await fetch('/api/resource/approve-marks', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                event_id: eventId.toString(),
+                participant_id: participantId,
+            }),
+        });
+        if (approveMarksReq.status === 400) return alert(await approveMarksReq.text());
+
+        alert('Approved.');
+        document.location.reload();
+    };
+
     useEffect(() => {
         if (!eventUsers || !eventUsers.length) return;
 
         const tempItemNames: string[] = [];
         Object.keys(eventUsers[0])
-            .filter((key) => !['participant_id', 'name', 'phone_number'].includes(key))
+            .filter((key) => !['participant_id', 'name', 'phone_number', 'approved_admin_name'].includes(key))
             .forEach((itemName) => {
                 tempItemNames.push(itemName);
             });
@@ -81,6 +100,8 @@ const OnGoingEventTable = ({ userType, eventUsers, eventId }: OnGoingEventTableP
                 <tbody>
                     {eventUsers &&
                         eventUsers.map((user, i) => {
+                            console.log(user);
+
                             return (
                                 <tr key={i} className={i % 2 ? 'dark' : 'light'}>
                                     {userType !== 'participant' && <td>{user.participant_id}</td>}
@@ -114,7 +135,15 @@ const OnGoingEventTable = ({ userType, eventUsers, eventId }: OnGoingEventTableP
                                                 );
                                             })
                                     }
-                                    {userType === 'admin' && <td>{}</td>}
+                                    {userType === 'admin' && (
+                                        <td>
+                                            {user.approved_admin_name || (
+                                                <button className={`--${user.participant_id}`} onClick={approveMarks}>
+                                                    Approve
+                                                </button>
+                                            )}
+                                        </td>
+                                    )}
                                 </tr>
                             );
                         })}

@@ -126,12 +126,24 @@ export const sqlGetEventInfo = async (userType: 'admin' | 'participant' | 'judge
                 SELECT 
                     participant.participant_id,
                     participant.name,
-                    participant.phone_number
+                    participant.phone_number,
+                    (
+						SELECT admin.name 
+
+                        FROM marks LEFT JOIN admin
+                        ON marks.admin_id = admin.admin_id
+
+						WHERE event_user.participant_id = marks.participant_id
+						AND event_user.event_id = marks.event_id
+                        LIMIT 1
+                    ) as approved_admin_name
                     ${itemQuery}
                         
-                FROM event_user LEFT JOIN participant
-                ON event_user.participant_id = participant.participant_id
+                FROM event_user 
                 
+                LEFT JOIN participant
+                ON event_user.participant_id = participant.participant_id
+
                 WHERE event_user.event_id = ${eventId};
             `;
         }

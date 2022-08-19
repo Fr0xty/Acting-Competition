@@ -139,3 +139,24 @@ export const validateSubmitMarksData = async (
         };
     }
 };
+
+export const validateApproveMarksData = async (formData: any) => {
+    const schema = Joi.object({
+        event_id: Joi.string()
+            .min(1)
+            .regex(/^[0-9]+$/)
+            .required(),
+        participant_id: Joi.string()
+            .regex(/^[0-9]{12}$/)
+            .required(),
+    });
+
+    try {
+        await schema.validateAsync(formData);
+    } catch (e: any) {
+        return {
+            field: '',
+            message: e.details[0].message,
+        };
+    }
+};
