@@ -57,7 +57,7 @@ const EventList = ({ userType, setCurrentSubPage }: EventListProperties) => {
                             })}`;
                             break;
 
-                        case 'Starting':
+                        case 'starting':
                             status = 'Starting';
                             spanClassName = 'starting';
                             text = `Starting on ${new Date(event.register_deadline).toLocaleString('en-US', {
