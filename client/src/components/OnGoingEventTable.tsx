@@ -45,7 +45,7 @@ const OnGoingEventTable = ({ userType, eventUsers, eventId }: OnGoingEventTableP
     };
 
     useEffect(() => {
-        if (!eventUsers) return;
+        if (!eventUsers || !eventUsers.length) return;
 
         const tempItemNames: string[] = [];
         Object.keys(eventUsers[0])
