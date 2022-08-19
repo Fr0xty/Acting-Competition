@@ -15,7 +15,16 @@ export const sqlGetEvents = async (userType: 'admin' | 'participant' | 'judge', 
     try {
         if (userType === 'participant') {
             const [rows, _] = await pool.query(`
-                SELECT event.*, event_user.participant_id, event_user.placement, event_user.total_marks 
+                SELECT 
+                    event.*,
+                    event_user.participant_id,
+                    event_user.placement,
+                    event_user.total_marks,
+                    CASE 
+                        WHEN event.register_deadline > NOW() THEN 'starting'
+                        WHEN event.event_deadline > NOW() THEN 'ongoing'
+                        ELSE 'ended'
+                    END AS event_status
                 
                 FROM event LEFT JOIN event_user
                 ON event.event_id = event_user.event_id
@@ -29,7 +38,15 @@ export const sqlGetEvents = async (userType: 'admin' | 'participant' | 'judge', 
          * admin & judge
          */
         const [rows, _] = await pool.query(`
-            SELECT * FROM event;
+            SELECT 
+                *,
+                CASE 
+                    WHEN register_deadline > NOW() THEN 'starting'
+                    WHEN event_deadline > NOW() THEN 'ongoing'
+                    ELSE 'ended'
+                END AS event_status 
+            
+            FROM event;
         `);
         return rows;
     } catch {}

@@ -21,11 +21,7 @@ const Event = ({ userType, eventId }: EventProperties) => {
      */
     useEffect(() => {
         if (!eventData.eventDetail) return;
-        const { register_deadline: registerDeadline, event_deadline: eventDeadline } = eventData.eventDetail;
-
-        if (new Date(eventDeadline) < new Date()) return setEventStatus('ended');
-        if (new Date(registerDeadline) < new Date()) return setEventStatus('ongoing');
-        setEventStatus('starting');
+        setEventStatus(eventData.eventDetail.event_status);
     }, [eventData]);
 
     /**

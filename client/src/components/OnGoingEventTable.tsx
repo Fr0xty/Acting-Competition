@@ -75,6 +75,7 @@ const OnGoingEventTable = ({ userType, eventUsers, eventId }: OnGoingEventTableP
                                     return <td key={i}>{itemName}</td>;
                                 })
                         }
+                        {userType === 'admin' && <td>Approve</td>}
                     </tr>
                 </thead>
                 <tbody>
@@ -113,6 +114,7 @@ const OnGoingEventTable = ({ userType, eventUsers, eventId }: OnGoingEventTableP
                                                 );
                                             })
                                     }
+                                    {userType === 'admin' && <td>{}</td>}
                                 </tr>
                             );
                         })}

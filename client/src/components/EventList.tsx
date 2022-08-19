@@ -32,73 +32,77 @@ const EventList = ({ userType, setCurrentSubPage }: EventListProperties) => {
 
     return (
         <div className="event-list">
-            {events.map((event, i) => {
-                /**
-                 * set status based on event deadlines
-                 */
-                let status: 'Ended' | 'On Going' | 'Starting';
-                if (new Date() > new Date(event.event_deadline)) status = 'Ended';
-                else if (new Date() > new Date(event.register_deadline)) status = 'On Going';
-                else status = 'Starting';
+            {!!events.length &&
+                events.map((event, i) => {
+                    /**
+                     * set text & className based on status
+                     */
+                    let status: 'Ended' | 'On Going' | 'Starting';
+                    let text, spanClassName;
 
-                /**
-                 * set text & className based on status
-                 */
-                let text, spanClassName;
-                switch (status) {
-                    case 'Ended':
-                        spanClassName = 'ended';
-                        text = `Ended on ${new Date(event.event_deadline).toLocaleString('en-US', {
-                            dateStyle: 'medium',
-                        })}`;
-                        break;
+                    switch (event.event_status) {
+                        case 'ended':
+                            status = 'Ended';
+                            spanClassName = 'ended';
+                            text = `Ended on ${new Date(event.event_deadline).toLocaleString('en-US', {
+                                dateStyle: 'medium',
+                            })}`;
+                            break;
 
-                    case 'On Going':
-                        spanClassName = 'on-going';
-                        text = `Ending on ${new Date(event.event_deadline).toLocaleString('en-US', {
-                            dateStyle: 'medium',
-                        })}`;
-                        break;
+                        case 'ongoing':
+                            status = 'On Going';
+                            spanClassName = 'on-going';
+                            text = `Ending on ${new Date(event.event_deadline).toLocaleString('en-US', {
+                                dateStyle: 'medium',
+                            })}`;
+                            break;
 
-                    case 'Starting':
-                        spanClassName = 'starting';
-                        text = `Starting on ${new Date(event.register_deadline).toLocaleString('en-US', {
-                            dateStyle: 'medium',
-                        })}`;
-                        break;
-                }
+                        case 'Starting':
+                            status = 'Starting';
+                            spanClassName = 'starting';
+                            text = `Starting on ${new Date(event.register_deadline).toLocaleString('en-US', {
+                                dateStyle: 'medium',
+                            })}`;
+                            break;
 
-                return (
-                    <a href={`/events/${event.event_id}`} key={i}>
-                        <div className="selection">
-                            <h3>{event.name}</h3>
-                            <p>{event.description}</p>
+                        default:
+                            /**
+                             * avoid typescript error
+                             */
+                            status = 'Ended';
+                    }
 
-                            <div className={`metadata ${spanClassName}`}>
-                                <span className="status">{status}</span>
-                                <span className="text">{text}</span>
-                                {userType === 'participant' && status === 'Ended' && (
-                                    <button className="ended" disabled>
-                                        Ended
-                                    </button>
-                                )}
-                                {userType === 'participant' && status !== 'Ended' && (
-                                    <button
-                                        className="not-ended"
-                                        disabled={event.participant_id || status === 'On Going'}
-                                        id={event.event_id}
-                                        onClick={joinEventClicked}
-                                    >
-                                        {status === 'Starting' && (event.participant_id ? 'Joined' : 'Join')}
-                                        {status === 'On Going' &&
-                                            (event.participant_id ? 'Joined' : 'Registration Closed')}
-                                    </button>
-                                )}
+                    return (
+                        <a href={`/events/${event.event_id}`} key={i}>
+                            <div className="selection">
+                                <h3>{event.name}</h3>
+                                <p>{event.description}</p>
+
+                                <div className={`metadata ${spanClassName}`}>
+                                    <span className="status">{status}</span>
+                                    <span className="text">{text}</span>
+                                    {userType === 'participant' && status === 'Ended' && (
+                                        <button className="ended" disabled>
+                                            Ended
+                                        </button>
+                                    )}
+                                    {userType === 'participant' && status !== 'Ended' && (
+                                        <button
+                                            className="not-ended"
+                                            disabled={event.participant_id || status === 'On Going'}
+                                            id={event.event_id}
+                                            onClick={joinEventClicked}
+                                        >
+                                            {status === 'Starting' && (event.participant_id ? 'Joined' : 'Join')}
+                                            {status === 'On Going' &&
+                                                (event.participant_id ? 'Joined' : 'Registration Closed')}
+                                        </button>
+                                    )}
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                );
-            })}
+                        </a>
+                    );
+                })}
 
             {userType === 'admin' && (
                 <div
