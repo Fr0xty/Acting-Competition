@@ -111,24 +111,25 @@ const OnGoingEventTable = ({ userType, eventUsers, eventId }: OnGoingEventTableP
                                             itemNames.map((itemName, i) => {
                                                 return (
                                                     <td key={i}>
-                                                        {user[itemName] ||
-                                                            (userType === 'admin' ? (
-                                                                '-'
-                                                            ) : (
-                                                                <div className="edit-marks">
-                                                                    <input
-                                                                        className={`--${user.participant_id}`}
-                                                                        type="number"
-                                                                        min={0}
-                                                                    />
-                                                                    <button
-                                                                        className={`--${user.participant_id}`}
-                                                                        onClick={submitMarks}
-                                                                    >
-                                                                        Give Marks
-                                                                    </button>
-                                                                </div>
-                                                            ))}
+                                                        {user[itemName] !== null ? (
+                                                            user[itemName]
+                                                        ) : userType === 'admin' ? (
+                                                            '-'
+                                                        ) : (
+                                                            <div className="edit-marks">
+                                                                <input
+                                                                    className={`--${user.participant_id}`}
+                                                                    type="number"
+                                                                    min={0}
+                                                                />
+                                                                <button
+                                                                    className={`--${user.participant_id}`}
+                                                                    onClick={submitMarks}
+                                                                >
+                                                                    Give Marks
+                                                                </button>
+                                                            </div>
+                                                        )}
                                                     </td>
                                                 );
                                             })

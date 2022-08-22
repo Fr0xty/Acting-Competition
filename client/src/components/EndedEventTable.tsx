@@ -83,7 +83,7 @@ const EndedEventTable = ({ userType, eventUsers }: EndedEventTableProperties) =>
                                     {userType !== 'participant' && <td>{user.phone_number}</td>}
 
                                     {itemNames.map((itemName, i) => {
-                                        return <td key={i}>{user[itemName] || '-'}</td>;
+                                        return <td key={i}>{user[itemName] !== null ? user[itemName] : '-'}</td>;
                                     })}
 
                                     <td>{user.total_marks || 'Not Approved'}</td>
