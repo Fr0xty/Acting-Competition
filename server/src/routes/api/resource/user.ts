@@ -23,6 +23,14 @@ router.get('/@me', accessTokenCheck, async (req, res) => {
 });
 
 /**
+ * check if client is logged in
+ */
+router.get('/is-logged-in', async (req, res) => {
+    if (req.signedCookies['rt'] || req.signedCookies['at']) return res.send('true');
+    res.send('false');
+});
+
+/**
  * get list of all users
  */
 router.get('/user-list', accessTokenCheck, async (req, res) => {
