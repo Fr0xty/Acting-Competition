@@ -50,7 +50,7 @@ const EventAdd = ({ setCurrentSubPage }: EventAddProperties) => {
         /**
          * handle bad input
          */
-        if (submitReq.status === 400) return alert();
+        if (submitReq.status === 400) return alert(await submitReq.text());
 
         /**
          * unforeseen error
@@ -119,6 +119,9 @@ const EventAdd = ({ setCurrentSubPage }: EventAddProperties) => {
                                           .split('T')[0]
                                     : ''
                             }
+                            onChange={(e) => {
+                                setEventDeadline(e.target.value);
+                            }}
                         />
                     </div>
                 </div>
