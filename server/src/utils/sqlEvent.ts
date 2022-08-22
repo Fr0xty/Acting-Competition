@@ -123,7 +123,7 @@ export const sqlGetEventInfo = async (userType: 'admin' | 'participant' | 'judge
                         WHERE marks.item_id = ${item.item_id}
                         AND marks.event_id = ${eventId}
                         AND marks.participant_id = event_user.participant_id
-                    ) as ${item.name}
+                    ) as '${item.name} (${item.full_marks})'
                 `;
             });
 
@@ -172,7 +172,7 @@ export const sqlGetEventInfo = async (userType: 'admin' | 'participant' | 'judge
                         WHERE marks.item_id = ${judgeEventItem.item_id}
                         AND marks.event_id = ${eventId}
                         AND marks.participant_id = event_user.participant_id
-                    ) as ${judgeEventItem.name}
+                    ) as '${judgeEventItem.name} (${judgeEventItem.full_marks})'
                 `;
             }
 
@@ -214,7 +214,7 @@ export const sqlGetEventInfo = async (userType: 'admin' | 'participant' | 'judge
                     WHERE marks.item_id = ${item.item_id}
                     AND marks.event_id = ${eventId}
                     AND marks.participant_id = event_user.participant_id
-                ) as ${item.name}
+                ) as '${item.name} (${item.full_marks})'
             `;
         });
 
@@ -223,8 +223,8 @@ export const sqlGetEventInfo = async (userType: 'admin' | 'participant' | 'judge
                 event_user.placement,
                 event_user.total_marks,
                 ${userType !== 'participant' ? 'participant.participant_id,' : ''}
-                participant.name,
-                ${userType !== 'participant' ? 'participant.phone_number' : ''}
+                participant.name
+                ${userType !== 'participant' ? ', participant.phone_number' : ''}
                 ${itemQuery}
                     
             FROM event_user 

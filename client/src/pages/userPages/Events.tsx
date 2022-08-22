@@ -1,4 +1,7 @@
+import '../../styles/Events.scss';
+
 import { useEffect, useState } from 'react';
+
 import Event from '../../components/Event';
 import EventAdd from '../../components/EventAdd';
 import EventList from '../../components/EventList';
@@ -19,11 +22,29 @@ const Events = ({ userType, eventId }: EventsProperties) => {
 
     return (
         <div className="events">
-            <UserNavbar />
-            <UserPageNavigation userType={userType} currentPage="events" />
+            <div className="no-print">
+                <UserNavbar />
+                <UserPageNavigation userType={userType} currentPage="events" />
+            </div>
+
             {currentSubPage === 'list' && <EventList userType={userType} setCurrentSubPage={setCurrentSubPage} />}
             {currentSubPage === 'add' && <EventAdd setCurrentSubPage={setCurrentSubPage} />}
-            {currentSubPage === 'event' && <Event userType={userType} eventId={eventId!} />}
+            {currentSubPage === 'event' && (
+                <>
+                    <Event userType={userType} eventId={eventId!} />
+                    <button
+                        className="print-btn"
+                        onClick={() => {
+                            const noPrintElement = document.querySelector('.events .no-print') as HTMLDivElement;
+                            noPrintElement.style.display = 'none';
+                            window.print();
+                            noPrintElement.style.display = 'block';
+                        }}
+                    >
+                        Print
+                    </button>
+                </>
+            )}
         </div>
     );
 };

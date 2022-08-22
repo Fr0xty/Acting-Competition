@@ -100,8 +100,6 @@ const OnGoingEventTable = ({ userType, eventUsers, eventId }: OnGoingEventTableP
                 <tbody>
                     {eventUsers &&
                         eventUsers.map((user, i) => {
-                            console.log(user);
-
                             return (
                                 <tr key={i} className={i % 2 ? 'dark' : 'light'}>
                                     {userType !== 'participant' && <td>{user.participant_id}</td>}

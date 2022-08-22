@@ -33,8 +33,6 @@ router.post('/add-event', accessTokenCheck, async (req, res) => {
  * get events to be viewed
  */
 router.get('/get-events', accessTokenCheck, async (req, res) => {
-    console.log('called');
-
     const userInfo = await sqlGetUserWithAccessToken(req.accessToken!);
 
     const events = await sqlGetEvents(userInfo!.userType!, userInfo!.userId!);
@@ -59,7 +57,6 @@ router.get('/get-event', accessTokenCheck, async (req, res) => {
     if (!eventInfo) return res.status(404).send('No event found with "event-id" provided.');
 
     res.json(eventInfo);
-    console.log(eventInfo);
 });
 
 /**
