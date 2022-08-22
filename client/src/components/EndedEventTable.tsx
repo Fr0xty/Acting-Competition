@@ -23,7 +23,17 @@ const EndedEventTable = ({ userType, eventUsers }: EndedEventTableProperties) =>
 
         const tempItemNames: string[] = [];
         Object.keys(eventUsers[0])
-            .filter((key) => !['participant_id', 'name', 'phone_number', 'approved_admin_name'].includes(key))
+            .filter(
+                (key) =>
+                    ![
+                        'participant_id',
+                        'name',
+                        'phone_number',
+                        'approved_admin_name',
+                        'placement',
+                        'total_marks',
+                    ].includes(key)
+            )
             .forEach((itemName) => {
                 tempItemNames.push(itemName);
             });
@@ -38,6 +48,7 @@ const EndedEventTable = ({ userType, eventUsers }: EndedEventTableProperties) =>
             <table>
                 <thead>
                     <tr>
+                        <td>Placement</td>
                         {userType !== 'participant' && <td>Participant Id</td>}
                         <td>Name</td>
                         {userType !== 'participant' && <td>Phone Number</td>}
@@ -45,6 +56,7 @@ const EndedEventTable = ({ userType, eventUsers }: EndedEventTableProperties) =>
                             itemNames.map((itemName, i) => {
                                 return <td key={i}>{itemName}</td>;
                             })}
+                        <td>Total Marks</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -52,6 +64,20 @@ const EndedEventTable = ({ userType, eventUsers }: EndedEventTableProperties) =>
                         eventUsers.map((user, i) => {
                             return (
                                 <tr key={i} className={i % 2 ? 'dark' : 'light'}>
+                                    <td
+                                        className={
+                                            user.placement === 1
+                                                ? 'first'
+                                                : user.placement === 2
+                                                ? 'second'
+                                                : user.placement === 3
+                                                ? 'third'
+                                                : ''
+                                        }
+                                    >
+                                        {user.placement || 'Not Approved'}
+                                    </td>
+
                                     {userType !== 'participant' && <td>{user.participant_id}</td>}
                                     <td>{user.name}</td>
                                     {userType !== 'participant' && <td>{user.phone_number}</td>}
@@ -59,6 +85,8 @@ const EndedEventTable = ({ userType, eventUsers }: EndedEventTableProperties) =>
                                     {itemNames.map((itemName, i) => {
                                         return <td key={i}>{user[itemName] || '-'}</td>;
                                     })}
+
+                                    <td>{user.total_marks || 'Not Approved'}</td>
                                 </tr>
                             );
                         })}

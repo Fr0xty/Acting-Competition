@@ -33,6 +33,22 @@
         td {
             padding: 0.3em 2em;
             text-align: center;
+
+            &.first {
+                background: #ffd700;
+            }
+            &.second {
+                background: #c0c0c0;
+            }
+            &.third {
+                background: #ae885a;
+            }
+
+            &.first,
+            &.second,
+            &.third {
+                font-weight: bold;
+            }
         }
 
         thead {

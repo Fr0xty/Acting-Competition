@@ -232,7 +232,9 @@ export const sqlGetEventInfo = async (userType: 'admin' | 'participant' | 'judge
             LEFT JOIN participant
             ON event_user.participant_id = participant.participant_id
 
-            WHERE event_user.event_id = ${eventId};
+            WHERE event_user.event_id = ${eventId}
+            
+            ORDER BY IF(event_user.placement IS NULL, 10000, 0), event_user.placement ASC;
         `;
     }
 

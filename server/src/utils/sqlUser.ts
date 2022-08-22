@@ -7,13 +7,15 @@ export const sqlGetUserList = async () => {
 
         UNION
 
-        SELECT participant_id as user_id, name, phone_number, 'participant' AS user_type 
-        FROM participant
+        SELECT judge_id as user_id, name, phone_number, 'judge' AS user_type 
+        FROM judge
 
         UNION
+
+        SELECT participant_id as user_id, name, phone_number, 'participant' AS user_type 
+        FROM participant;
         
-        SELECT judge_id as user_id, name, phone_number, 'judge' AS user_type 
-        FROM judge;
+        
     `);
 
     return rows;
