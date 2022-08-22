@@ -65,6 +65,10 @@ const SignupForm = () => {
             return window.location.reload();
         }
 
+        if (req.status === 401) {
+            alert('You do not have permission. Please sign up as participant instead.');
+        }
+
         /**
          * something went wrong
          */
