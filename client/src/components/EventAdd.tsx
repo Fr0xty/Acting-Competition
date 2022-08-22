@@ -101,6 +101,7 @@ const EventAdd = ({ setCurrentSubPage }: EventAddProperties) => {
                         <span>Register Deadline</span>
                         <input
                             type="date"
+                            min={new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().split('T')[0]}
                             onChange={(e) => {
                                 setRegisterDeadline(e.target.value);
                             }}
@@ -111,6 +112,11 @@ const EventAdd = ({ setCurrentSubPage }: EventAddProperties) => {
                         <span>Event Deadline</span>
                         <input
                             type="date"
+                            min={
+                                new Date(new Date().setDate(new Date(new Date(registerDeadline)).getDate() + 1))
+                                    .toISOString()
+                                    .split('T')[0]
+                            }
                             onChange={(e) => {
                                 setEventDeadline(e.target.value);
                             }}
