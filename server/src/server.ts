@@ -1,7 +1,9 @@
 import 'dotenv/config';
 
+import { fileURLToPath } from 'url';
 import cookieParser from 'cookie-parser';
 import express from 'express';
+import path from 'path';
 
 /**
  * main instance of server
@@ -20,6 +22,18 @@ app.use(express.json());
 import apiRouter from './routes/api.js';
 
 app.use('/api', apiRouter);
+
+/**
+ * render React webapp
+ */
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(express.static(path.join(__dirname, '..', 'build')));
+
+app.get('*', async (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
+});
 
 /**
  * run server on given port
