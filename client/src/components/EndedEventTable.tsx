@@ -1,4 +1,5 @@
 import '../styles/Table.scss';
+import { useEffect, useState } from 'react';
 
 interface EndedEventTableProperties {
     userType: 'admin' | 'participant' | 'judge';
@@ -15,9 +16,24 @@ interface EndedEventTableProperties {
 }
 
 const EndedEventTable = ({ userType, eventUsers }: EndedEventTableProperties) => {
+    const [itemNames, setItemNames] = useState<string[]>([]);
+
+    useEffect(() => {
+        if (!eventUsers || !eventUsers.length) return;
+
+        const tempItemNames: string[] = [];
+        Object.keys(eventUsers[0])
+            .filter((key) => !['participant_id', 'name', 'phone_number', 'approved_admin_name'].includes(key))
+            .forEach((itemName) => {
+                tempItemNames.push(itemName);
+            });
+
+        setItemNames(tempItemNames);
+    }, [eventUsers]);
+
     return (
         <div className="table">
-            <h2>Joined Participant</h2>
+            <h2>Participants</h2>
 
             <table>
                 <thead>
@@ -25,8 +41,10 @@ const EndedEventTable = ({ userType, eventUsers }: EndedEventTableProperties) =>
                         {userType !== 'participant' && <td>Participant Id</td>}
                         <td>Name</td>
                         {userType !== 'participant' && <td>Phone Number</td>}
-                        <td>Placement</td>
-                        <td>Total Marks</td>
+                        {!!itemNames.length &&
+                            itemNames.map((itemName, i) => {
+                                return <td key={i}>{itemName}</td>;
+                            })}
                     </tr>
                 </thead>
                 <tbody>
@@ -37,8 +55,10 @@ const EndedEventTable = ({ userType, eventUsers }: EndedEventTableProperties) =>
                                     {userType !== 'participant' && <td>{user.participant_id}</td>}
                                     <td>{user.name}</td>
                                     {userType !== 'participant' && <td>{user.phone_number}</td>}
-                                    <td>{user.placement}</td>
-                                    <td>{user.total_marks}</td>
+
+                                    {itemNames.map((itemName, i) => {
+                                        return <td key={i}>{user[itemName] || '-'}</td>;
+                                    })}
                                 </tr>
                             );
                         })}

@@ -15,21 +15,26 @@ export const sqlGetEvents = async (userType: 'admin' | 'participant' | 'judge', 
     try {
         if (userType === 'participant') {
             const [rows, _] = await pool.query(`
-                SELECT 
+                SELECT
                     event.*,
                     event_user.participant_id,
                     event_user.placement,
                     event_user.total_marks,
-                    CASE 
+                    CASE
                         WHEN event.register_deadline > NOW() THEN 'starting'
                         WHEN event.event_deadline > NOW() THEN 'ongoing'
                         ELSE 'ended'
                     END AS event_status
-                
+
                 FROM event LEFT JOIN event_user
-                ON event.event_id = event_user.event_id
-                
-                WHERE (event_user.participant_id = ${userId} or event_user.participant_id is null);
+                ON (
+                    event.event_id = event_user.event_id
+                    AND (
+                        event_user.participant_id = '${userId}'
+                        OR
+                        event_user.participant_id IS NULL
+                    )
+                );
             `);
             return rows;
         }
@@ -199,17 +204,36 @@ export const sqlGetEventInfo = async (userType: 'admin' | 'participant' | 'judge
      * event ended
      */
     if (eventDetail.event_status === 'ended') {
-        if (userType !== 'participant') {
-            eventUserQuery = `
-                // TODO get all event users with all items
-            `;
-        }
+        const eventItems = await sqlGetEventItems(eventDetail.event_id);
 
-        if (userType === 'participant') {
-            eventUserQuery = `
-                // TODO get all event users with all items without id and phone_number
+        let itemQuery = '';
+        eventItems.forEach((item) => {
+            itemQuery += `
+                ,(
+                    SELECT marks.marks FROM marks
+                    WHERE marks.item_id = ${item.item_id}
+                    AND marks.event_id = ${eventId}
+                    AND marks.participant_id = event_user.participant_id
+                ) as ${item.name}
             `;
-        }
+        });
+
+        eventUserQuery = `
+            SELECT 
+                event_user.placement,
+                event_user.total_marks,
+                ${userType !== 'participant' ? 'participant.participant_id,' : ''}
+                participant.name,
+                ${userType !== 'participant' ? 'participant.phone_number' : ''}
+                ${itemQuery}
+                    
+            FROM event_user 
+            
+            LEFT JOIN participant
+            ON event_user.participant_id = participant.participant_id
+
+            WHERE event_user.event_id = ${eventId};
+        `;
     }
 
     const [eventUserRows, __] = await pool.query(eventUserQuery as string);
