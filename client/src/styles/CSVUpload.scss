@@ -1,0 +1,41 @@
+.csv-import {
+    span.upload-text {
+        font-size: 2em;
+        font-weight: bold;
+        display: block;
+        text-align: center;
+        text-decoration: underline;
+        margin-top: 5em;
+    }
+
+    input {
+        font-size: 1.2em;
+        padding: 0;
+        border: 1px solid var(--jet);
+        border-radius: 0.2em;
+        background: rgb(116, 116, 116);
+        color: white;
+        width: 40%;
+        display: block;
+        margin: 0.5em auto 2em;
+
+        &::file-selector-button {
+            font-size: 0.9em;
+            padding: 0.3em 0.8em;
+            background: var(--success);
+            font-weight: bold;
+            border: 1px solid white;
+            border-radius: 0.2em;
+            margin: 0.2em;
+            margin-right: 1em;
+        }
+    }
+
+    span.csv-format-text {
+        display: block;
+        text-align: center;
+        font-size: 1.3em;
+        font-weight: bold;
+        margin: 2.5em 0 0.4em;
+    }
+}

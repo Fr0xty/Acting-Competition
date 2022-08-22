@@ -2,6 +2,7 @@ import '../../styles/HomePage.scss';
 
 import UserPageNavigation from '../../components/UserPageNavigation';
 import UserNavbar from '../../components/UserNavbar';
+import CSVUpload from '../../components/CSVUpload';
 
 interface HomePageProperties {
     userType: 'admin' | 'participant' | 'judge';
@@ -33,6 +34,7 @@ const HomePage = ({ userType }: HomePageProperties) => {
                     </>
                 )}
             </div>
+            {userType === 'admin' && <CSVUpload />}
         </div>
     );
 };
