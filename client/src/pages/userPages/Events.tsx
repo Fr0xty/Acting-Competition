@@ -33,15 +33,21 @@ const Events = ({ userType, eventId }: EventsProperties) => {
                 <>
                     <Event userType={userType} eventId={eventId!} />
                     <button
-                        className="print-btn"
+                        className="print-btn no-print"
                         onClick={() => {
                             const noPrintElements = document.querySelectorAll(
                                 '.events .no-print'
                             ) as NodeListOf<HTMLDivElement>;
 
-                            noPrintElements.forEach((noPrintElement) => (noPrintElement.style.display = 'none'));
+                            noPrintElements.forEach((noPrintElement) => {
+                                noPrintElement.style.visibility = 'hidden';
+                                noPrintElement.style.position = 'absolute';
+                            });
                             window.print();
-                            noPrintElements.forEach((noPrintElement) => (noPrintElement.style.display = 'block'));
+                            noPrintElements.forEach((noPrintElement) => {
+                                noPrintElement.style.position = 'relative';
+                                noPrintElement.style.visibility = 'visible';
+                            });
                         }}
                     >
                         Print
