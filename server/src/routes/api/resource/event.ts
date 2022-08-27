@@ -3,6 +3,7 @@ import accessTokenCheck from '../../../middlewares/accessTokenCheck.js';
 import { sqlGetUserWithAccessToken } from '../../../utils/sqlAcount.js';
 import {
     sqlAddEvent,
+    sqlDeleteEvent,
     sqlGetEventAvailableJudges,
     sqlGetEventInfo,
     sqlGetEvents,
@@ -89,6 +90,21 @@ router.post('/join-event', accessTokenCheck, async (req, res) => {
     if (!eventId) return res.status(400).send('Missing "event-id" query string.');
 
     await sqlJoinEvent(userInfo.userId, eventId.toString());
+    res.sendStatus(200);
+});
+
+router.delete('/delete-event', accessTokenCheck, async (req, res) => {
+    const userInfo = await sqlGetUserWithAccessToken(req.accessToken!);
+    if (!userInfo) return res.sendStatus(401);
+    if (userInfo.userType !== 'admin') return res.sendStatus(403);
+
+    /**
+     * get event-id query string
+     */
+    const { 'event-id': eventId } = req.query;
+    if (!eventId) return res.status(400).send('Missing "event-id" query string.');
+
+    await sqlDeleteEvent(eventId.toString());
     res.sendStatus(200);
 });
 

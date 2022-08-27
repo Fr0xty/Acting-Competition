@@ -264,3 +264,16 @@ export const sqlJoinEvent = async (participantId: string, eventId: string) => {
         `);
     } catch {}
 };
+
+export const sqlDeleteEvent = async (eventId: string) => {
+    try {
+        const effectingTables = ['event', 'event_user', 'item', 'marks'];
+
+        effectingTables.forEach(async (tableName) => {
+            await pool.execute(`
+                DELETE FROM ${tableName}
+                WHERE event_id = '${eventId}';
+            `);
+        });
+    } catch {}
+};
