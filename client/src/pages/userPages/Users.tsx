@@ -8,7 +8,7 @@ const Users = () => {
     const [searchText, setSearchText] = useState('');
 
     return (
-        <div className="users">
+        <div className="users" style={{ paddingBottom: '5em' }}>
             <UserNavbar />
             <UserPageNavigation userType="admin" currentPage="users" />
             <SearchBar value={searchText} setValue={setSearchText} />

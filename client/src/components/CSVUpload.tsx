@@ -29,7 +29,7 @@ const CSVUpload = () => {
     };
 
     return (
-        <div className="csv-import">
+        <div className="csv-upload">
             <span className="upload-text">Upload Judge CSV File</span>
             <input type="file" onChange={fileAdded} />
 
